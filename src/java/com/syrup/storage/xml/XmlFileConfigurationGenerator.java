@@ -47,7 +47,7 @@ public class XmlFileConfigurationGenerator extends XmlGeneratorSupport {
 				// defined with the same ID.
 				// serviceElement.setAttribute("id", mockServiceBean.getId());
 				// *************************************
-				serviceElement.setAttribute("name", page.getShortName());
+				serviceElement.setAttribute("name", page.getPageName());
 			
 				for(Asset asset: page.getAssets()){
 					Element assetElement = document.createElement("asset");

@@ -47,7 +47,7 @@ $(document).ready( function() {
 			   <c:forEach var="page" items="${pages}"  varStatus="status">	
 			   <p id="page-info-block_${page.id}">
 			   <span><a class="delete-page remove_grey" id="delete-page_<c:out value="${page.id}"/>" title="Delete this page" href="#">x</a></span>
-			   <a href="<c:url value="/page/setup?pageId=${page.id}" />">${page.shortName}</a>
+			   <a href="<c:url value="/page/setup?pageId=${page.id}" />">${page.pageName}</a>
 			   </p>
 			   </c:forEach>
 			

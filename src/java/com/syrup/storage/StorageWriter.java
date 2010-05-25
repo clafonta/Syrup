@@ -9,7 +9,7 @@ class StorageWriter {
 		sb.append(storage.toString());
 		for (Page item : storage.getPages()) {
 			sb.append("Page ID: ").append(item.getId()).append("\n");
-			sb.append("Page name: ").append(item.getShortName()).append(
+			sb.append("Page name: ").append(item.getPageName()).append(
 					"\n");
 
 		}

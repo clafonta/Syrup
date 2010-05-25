@@ -3,8 +3,37 @@
 <c:set var="pageTitle" value="Home" scope="request" />
 <c:set var="currentTab" value="home" scope="request" />
 <jsp:include page="/WEB-INF/common/header.jsp" />
-	<script type="text/javascript">
+	<script type="text/javascript"><!--
     $(document).ready(function(){
+    	$('#save-page')
+        .button()
+        .click(function() {
+
+        	$('#dcanvas').children('.dragster').each(function() {
+                var child = $(this);
+               
+            });
+                	
+            
+        	$('#page_name').removeClass('ui-state-error');
+        	var pageId = $('#pageId').val();
+        	var pageName = $('#page_name').val();
+        	$.post('<c:url value="/page/setup"/>', { pageId: pageId, pageName: pageName } ,function(data){
+                   //console.log(data);
+                   if(data.result.success && data.result.pageId){
+                       $('#updated').fadeIn('fast').animate({opacity: 1.0}, 300).fadeOut('fast'); 
+                      
+                       
+                    }else {
+                    	var message = "";
+                    	if(data.result.pageName){
+                            $('#page_name').addClass('ui-state-error');
+                              message = message + '<div>' + data.result.pageName +'</div>';
+                        }
+                    	$.prompt('<div style=\"color:red;\">Not updated:</div> ' + message);
+                    }
+            }, 'json' );
+        });
         //Counter
         counter = 0;
         //Make clone and make it draggable
@@ -39,13 +68,13 @@
 							var pageId = $('#pageId').val();
 							var left = pos.left;
 							var top = pos.top;
-							var shortName = $('#shortName').val();
+							var pageName = $('#pageName').val();
 							var sourceValue = $(this).attr("alt");
 							if($('#asset-top_'+assetId)[0]){
 								$('#asset-top_'+assetId)[0].value = top;
 							}
 							$.post('<c:url value="/page/setup"/>', { pageId: pageId, assetId: assetId,
-								top: top, left: left, shortName:shortName, sourceValue:sourceValue } ,function(data){
+								top: top, left: left, pageName: pageName, sourceValue:sourceValue } ,function(data){
 								   //console.log(data);
 								   if(data.result.success && data.result.planid){
 									   $('#updated').fadeIn('fast').animate({opacity: 1.0}, 300).fadeOut('fast'); 
@@ -90,7 +119,7 @@
 	                var pageId = $('#pageId').val();
 	                var left = pos.left;
 	                var top = pos.top;
-	                var shortName = $('#shortName').val();
+	                var pageName = $('#pageName').val();
 	                var sourceValue = $(this).attr("alt");
 	                if($('#asset-top_'+assetId)[0]){
 	                    $('#asset-top_'+assetId)[0].value = top;
@@ -98,8 +127,8 @@
 	                    $('#asset-left_'+assetId)[0].value = left;
 	                }
 	                $.post('<c:url value="/page/setup"/>', { pageId: pageId, assetId: assetId,
-	                    top: top, left: left, shortName:shortName, sourceValue:sourceValue } ,function(data){
-	                        //console.log(data);
+	                    top: top, left: left, pageName: pageName, sourceValue:sourceValue } ,function(data){
+	                       
 	                        if(data.result.success && data.result.planid){
 	                            $('#updated').fadeIn('fast').animate({opacity: 1.0}, 300).fadeOut('fast'); 
 
@@ -131,7 +160,7 @@
         });
     });
 
-	</script>
+	--></script>
 
 <div class="container_12">
 	
@@ -166,7 +195,15 @@
 	<!-- end .grid_3 -->
 	<div class="grid_9">
 	    <input type="hidden" id="pageId" value="${pageItem.id}"/>
-	    <p>Page name: <input id="shortName" type="text" value="${pageItem.shortName}"></input></p>
+	    
+	    <div class="group">
+	    <fieldset>
+	    <label for="page_name">Page name:</label>
+	    <input id="page_name" class="text ui-corner-all ui-widget-content" name="page_name" type="text" value="${pageItem.pageName}"></input>
+	    </fieldset>
+	    <div align="right">
+	    <button id="save-page">Save Page</button></div>
+	    </div>
 		<p id="dcanvas">
 			 
 			 <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status">	 

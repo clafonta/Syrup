@@ -43,7 +43,7 @@ public class XmlFileConfigurationParser {
 		digester.setValidating(false);
 		digester.addObjectCreate(ROOT, InMemoryStorage.class);
 		digester.addObjectCreate(PAGE, Page.class);
-		digester.addSetProperties(PAGE, "name", "serviceName");
+		digester.addSetProperties(PAGE, "name", "pageName");
 		digester.addSetNext(PAGE, "saveOrUpdatePage");
 
 		digester.addObjectCreate(ASSET, Asset.class);

@@ -45,7 +45,7 @@ public class PageSetupServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		String pageId = req.getParameter("pageId");
-		String shortName = req.getParameter("shortName");
+		String pageName = req.getParameter("pageName");
 		String assetId = req.getParameter("assetId");
 		String top = req.getParameter("top");
 		String left = req.getParameter("left");
@@ -62,7 +62,7 @@ public class PageSetupServlet extends HttpServlet {
 		if (pageItem == null) {
 			pageItem = new Page();
 		}
-		pageItem.setShortName(shortName);
+		pageItem.setPageName(pageName);
 		try {
 			assetItem = pageItem.getAssetById(new Long(assetId));
 		} catch (Exception e) {
@@ -79,29 +79,34 @@ public class PageSetupServlet extends HttpServlet {
 			statusMessage.put("success", "deleted");
 
 		} else {
-			// UPDATE PAGE
-			if (assetId != null) {
-				try {
-					assetItem.setLeft(Float.parseFloat(left));
-					assetItem.setTop(Float.parseFloat(top));
-					assetItem.setSource(sourceValue);
-				} catch (Exception e) {
-					//
+			if (pageName == null || pageName.trim().length() == 0) {
+				// PAGE SHOULD NOT HAVE AN EMPTY NAME
+				statusMessage.put("fail", "Page not updated.");
+				statusMessage.put("pageName", "Name should not be empty.");
+			} else {
+				// UPDATE PAGE
+				if (assetId != null) {
+					try {
+						assetItem.setLeft(Float.parseFloat(left));
+						assetItem.setTop(Float.parseFloat(top));
+						assetItem.setSource(sourceValue);
+					} catch (Exception e) {
+						//
+					}
+					// DELETE ASSET?
+					if (action != null
+							&& "deleteAsset".equalsIgnoreCase(action)) {
+						pageItem.deleteAsset(assetItem);
+					} else {
+						// UPDATE ASSET
+						pageItem.saveOrUpdateAsset(assetItem);
+					}
 				}
-				// DELETE ASSET?
-				if (action != null && "deleteAsset".equalsIgnoreCase(action)) {
-					pageItem.deleteAsset(assetItem);
-				} else {
-					// UPDATE ASSET
-					pageItem.saveOrUpdateAsset(assetItem);
-				}
+				store.saveOrUpdatePage(pageItem);
+				statusMessage.put("success", "updated");
+				statusMessage.put("pageId", "" + pageItem.getId());
 			}
-			store.saveOrUpdatePage(pageItem);
-			statusMessage.put("success", "updated");
-			statusMessage.put("pageId", "" + pageItem.getId());
 		}
-		
-		
 
 		String resultingJSON = Util.getJSON(statusMessage);
 		out.println(resultingJSON);
@@ -110,4 +115,3 @@ public class PageSetupServlet extends HttpServlet {
 		return;
 	}
 }
-
