@@ -27,10 +27,10 @@
                 	containment: 'parent',
                     stop:function(ev, ui) {
                     	var pos=$(ui.helper).offset();
-                    	//console.log($(this).attr("id"));
-						//console.log(pos.left);
-                        //console.log(pos.top);
-						if(pos.top < 300){
+                    	console.log($(this).attr("id"));
+						console.log("left: " + pos.left);
+                        console.log("top: " +  pos.top);
+						if(pos.top < 100 && pos.left < 470){
 							//console.log("trash can");
 							trash = true;
 							$(this).remove();
@@ -67,8 +67,9 @@
 <div class="container_12">
 	<!-- end .grid_10 -->
 	<div class="clear"></div>
+	
+	<div class="clear"></div>
 	<div class="grid_3" id="palette">
-		
 		   <ul>
 			<li><img id="drag1" class="drag" src="images/sample/hello_kitty_car.png"></li>
 			<li><img id="drag2" class="drag" src="images/sample/hello_kitty_pirate.png"></li>
@@ -77,8 +78,10 @@
 	</div>
 	<!-- end .grid_3 -->
 	<div class="grid_9">
+	    
 		<p id="dcanvas" style="height:500px;">
-			 
+			 <img style="float:left;padding:0.1em;margin:0.2em;" height="30px" src="images/trashcan.png"/>
+		
 		</p>
 	</div>
 	<!-- end .grid_9 -->
