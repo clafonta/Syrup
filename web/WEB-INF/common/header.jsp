@@ -9,6 +9,7 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/960/reset.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/960/text.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/960/960.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/prompt.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/superfish.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/jquery-ui-1.8.1.custom/css/flick/jquery-ui-1.8.1.custom.css" />" />
@@ -44,9 +45,10 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-<div id="container_12">
+<div>
 
-<div id="logo">
+
+<div id="header">
     <a href="<c:url value="/home" />"><img src="<c:url value="/images/logo.png" />" /></a>
     <span style="float:right;"><img style="height:60px; " src="<c:url value="/images/silhouette.png" />" /></span>
 	<%@ include file="/WEB-INF/common/message.jsp"%>
@@ -66,7 +68,7 @@ $(document).ready(function() {
 			href="<c:url value="/home" />">Home  <span class="sf-sub-indicator"> &#187;</span></a>
 			<ul>
 				<li><a title="Create a page"
-					href="<c:url value="/setup" />">Create a Service</a></li>
+					href="<c:url value="/page/setup" />">Create a Page</a></li>
 				
 			</ul>
 		</li>
@@ -75,6 +77,4 @@ $(document).ready(function() {
 	</ul>
 	</div>
 	<div style="border-bottom:1px solid #CCCCCC;"></div>
-	
 </div>
-

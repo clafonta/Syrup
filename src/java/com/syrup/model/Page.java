@@ -33,8 +33,18 @@ public class Page implements PersistableItem {
 		return this.assets.getOrderedList();
 	}
 	
+	public void deleteAsset(Asset asset){
+		if(asset!=null && asset.getId()!=null){
+			this.assets.remove(asset.getId());
+		}
+	}
 	public Asset saveOrUpdateAsset(Asset asset){
 		return (Asset)this.assets.save(asset);
+	}
+
+	public Asset getAssetById(Long id) {
+		
+		return (Asset)this.assets.get(id);
 	}
 
 }

@@ -53,8 +53,8 @@ public class XmlFileConfigurationGenerator extends XmlGeneratorSupport {
 					Element assetElement = document.createElement("asset");
 					assetElement.setAttribute("id", asset.getId().toString());
 					assetElement.setAttribute("source",asset.getSource());
-					assetElement.setAttribute("anchorX",""+asset.getAnchorPosX());
-					assetElement.setAttribute("anchorY",""+asset.getAnchorPosY());
+					assetElement.setAttribute("top",""+asset.getTop());
+					assetElement.setAttribute("left",""+asset.getLeft());
 					serviceElement.appendChild(assetElement);
 				}
 			}

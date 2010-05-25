@@ -31,9 +31,9 @@ import org.xml.sax.InputSource;
  */
 public class XmlFileConfigurationParser {
 
-	private final static String ROOT = "mockservice";
-	private final static String PAGE = ROOT + "/service";
-	private final static String ASSET = PAGE + "/scenario";
+	private final static String ROOT = "syrup";
+	private final static String PAGE = ROOT + "/page";
+	private final static String ASSET = PAGE + "/asset";
 
 	public IStorage getMockServices(InputSource inputSource)
 			throws org.xml.sax.SAXParseException, java.io.IOException,
@@ -49,8 +49,8 @@ public class XmlFileConfigurationParser {
 		digester.addObjectCreate(ASSET, Asset.class);
 		digester.addSetProperties(ASSET, "id", "id");
 		digester.addSetProperties(ASSET, "source", "source");
-		digester.addSetProperties(ASSET, "anchorX", "anchorX");
-		digester.addSetProperties(ASSET, "anchorY", "anchorY");
+		digester.addSetProperties(ASSET, "left", "left");
+		digester.addSetProperties(ASSET, "top", "top");
 		digester.addSetNext(ASSET, "saveOrUpdateAsset");
 
 		IStorage c = (IStorage) digester.parse(inputSource);

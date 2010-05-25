@@ -16,6 +16,7 @@
 package com.syrup.ui;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -23,6 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.syrup.model.Page;
 import com.syrup.storage.IStorage;
 import com.syrup.storage.StorageRegistry;
 
@@ -34,6 +36,8 @@ public class HomeServlet extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
+    	List<Page> pages = store.getPages();
+    	req.setAttribute("pages", pages);
         RequestDispatcher dispatch = req.getRequestDispatcher("home.jsp");
 
         dispatch.forward(req, resp);
