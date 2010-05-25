@@ -1,0 +1,63 @@
+.jqifade{
+      position: absolute;
+      background-color: #aaaaaa;
+}
+div.jqi{
+      width: 400px;      
+      position: absolute;
+      background-color: #ffffff;      
+      text-align: left;
+      border: solid 1px #eeeeee;
+      -moz-border-radius: 10px;
+      -webkit-border-radius: 10px;
+      padding: 7px;
+}
+div.jqi .jqicontainer{
+      font-weight: bold;
+}
+div.jqi .jqiclose{
+      position: absolute;
+      top: 4px; right: -2px;
+      width: 18px;
+      cursor: default;
+      color: #bbbbbb;
+      font-weight: bold;
+}
+div.jqi .jqimessage{
+      padding: 10px;
+      line-height: 20px;
+      color: #444444;
+}
+div.jqi .jqibuttons{
+      text-align: center;
+      padding: 5px 0 5px 0;
+      border: solid 1px #eeeeee;
+      background-color: #f4f4f4;
+}
+div.jqi button{
+      padding: 3px 10px;
+      margin: 0 10px;
+      background-color: #2F6073;
+      border: solid 1px #f4f4f4;
+      color: #ffffff;
+      font-weight: bold;
+}
+div.jqi button:hover{
+      background-color: #728A8C;
+}
+div.jqi button.jqidefaultbutton{
+      background-color: #F60;
+}
+.jqiwarning .jqi .jqibuttons{
+      background-color: #F60;
+}
+.js .display { display:none; }
+
+#jsddm {margin: 0; padding: 0}
+#jsddm li {	float: left;list-style: none;}
+#jsddm li a	{display: block; background: #20548E;padding:0.2em 0.8em 0.2em 0.8em; text-decoration: none;	border-right: 1px solid white; width: 70px;	color: #EAFFED;	white-space: nowrap;}
+#jsddm li a:hover {	background: #1A4473;}		
+#jsddm li ul { margin: 0; padding: 0; position: absolute; visibility: hidden; border-top: 1px solid white;}
+#jsddm li ul li	{	float: none; display:inline;}		
+#jsddm li ul li a {	width: auto; background: #9F1B1B; }
+#jsddm li ul li a:hover	{	background: #7F1616;}

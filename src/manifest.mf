@@ -1,0 +1,2 @@
+One-Jar-Main-Class: com.syrup.runner.Main
+One-Jar-Expand: Syrup.war
