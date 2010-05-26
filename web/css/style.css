@@ -74,12 +74,10 @@ background-color: #FFFFCC;
 padding: 8px;
 }
 p {
-	border: 1px solid #bdbdbd;
-	overflow: hidden;
-	padding: 10px 0.2em;
+	padding:0.2em;
 	margin: 0.2em;
 }
-.location {width:30px;}
+.location {width:40px;}
 /* DRAG AND DROP */
 #palette ul {list-style: none; margin-top:4em; padding:3em;}
 .dropped {position:absolute;}
