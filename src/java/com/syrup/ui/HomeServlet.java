@@ -24,7 +24,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.syrup.model.Page;
+import com.syrup.model.Project;
 import com.syrup.storage.IStorage;
 import com.syrup.storage.StorageRegistry;
 
@@ -36,8 +36,21 @@ public class HomeServlet extends HttpServlet {
 
     public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-    	List<Page> pages = store.getPages();
-    	req.setAttribute("pages", pages);
+    	List<Project> projects = store.getProjects();
+    	req.setAttribute("projects", projects);
+    	
+    	// Check for a default project.
+    	String projectId = req.getParameter("projectId");
+    	Project proj = null;
+    	try{
+    		proj = store.getProjectById(new Long(projectId));
+    	}catch(Exception e){
+    		//
+    	}
+    	if(proj==null && projects!=null && projects.size()>0){
+    		proj = projects.get(0);
+    	}
+    	req.setAttribute("project", proj);
         RequestDispatcher dispatch = req.getRequestDispatcher("home.jsp");
 
         dispatch.forward(req, resp);

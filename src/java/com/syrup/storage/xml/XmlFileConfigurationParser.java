@@ -32,7 +32,8 @@ import org.xml.sax.InputSource;
 public class XmlFileConfigurationParser {
 
 	private final static String ROOT = "syrup";
-	private final static String PAGE = ROOT + "/page";
+	private final static String PROJECT = ROOT + "/project";
+	private final static String PAGE = PROJECT + "/page";
 	private final static String ASSET = PAGE + "/asset";
 
 	public IStorage getMockServices(InputSource inputSource)
@@ -42,16 +43,23 @@ public class XmlFileConfigurationParser {
 		Digester digester = new Digester();
 		digester.setValidating(false);
 		digester.addObjectCreate(ROOT, InMemoryStorage.class);
+		digester.addObjectCreate(PROJECT, Project.class);
 		digester.addObjectCreate(PAGE, Page.class);
-		digester.addSetProperties(PAGE, "name", "pageName");
-		digester.addSetNext(PAGE, "saveOrUpdatePage");
-
 		digester.addObjectCreate(ASSET, Asset.class);
+		
+		digester.addSetNext(PROJECT, "saveOrUpdateProject");
+		digester.addSetNext(PAGE, "saveOrUpdatePage");
+		digester.addSetNext(ASSET, "saveOrUpdateAsset");
+		
+		digester.addSetProperties(PROJECT, "name", "name");
+		digester.addSetProperties(PAGE, "name", "name");
+		digester.addSetProperties(PAGE, "id", "id");
+		
 		digester.addSetProperties(ASSET, "id", "id");
 		digester.addSetProperties(ASSET, "source", "source");
 		digester.addSetProperties(ASSET, "left", "left");
 		digester.addSetProperties(ASSET, "top", "top");
-		digester.addSetNext(ASSET, "saveOrUpdateAsset");
+		
 
 		IStorage c = (IStorage) digester.parse(inputSource);
 		return c;

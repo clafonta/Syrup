@@ -28,6 +28,14 @@
 		<servlet-name>PageSetupServlet</servlet-name>
 		<servlet-class>com.syrup.ui.PageSetupServlet</servlet-class>
 	</servlet>
+	<servlet>
+        <servlet-name>ProjectSetupServlet</servlet-name>
+        <servlet-class>com.syrup.ui.ProjectSetupServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ProjectSetupServlet</servlet-name>
+        <url-pattern>/project/setup</url-pattern>
+    </servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>PageSetupServlet</servlet-name>
 		<url-pattern>/page/setup</url-pattern>

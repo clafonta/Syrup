@@ -8,7 +8,8 @@
     	$('#save-page')
         .button()
         .click(function() {
-
+        	var projectId = $('#projectId').val();
+        	var pageId = $('#pageId').val();
         	var assetIdValues = new Array();
             var topValues = new Array();
             var leftValues = new Array();
@@ -24,12 +25,9 @@
                 leftValues.push(assetId+'_'+$child.position().left);
                 sourceValues.push(assetId+'_'+$child.attr("alt"));
             });
-                	
-            
         	$('#page_name').removeClass('ui-state-error');
-        	var pageId = $('#pageId').val();
         	var pageName = $('#page_name').val();
-        	$.post('<c:url value="/page/setup"/>', { pageId: pageId, pageName: pageName,
+        	$.post('<c:url value="/page/setup"/>', { projectId: projectId, pageId: pageId, name: pageName,
             	'assetId[]': assetIdValues, 'left[]': leftValues, 'top[]': topValues,
             	'source[]': sourceValues  } ,function(data){
                    //console.log(data);
@@ -48,7 +46,7 @@
             }, 'json' );
         });
         //Counter
-        counter = ${counter};
+        counter = ${pageItem.nextAvailableAssetId};
         //Make clone and make it draggable
         $(".drag").draggable({
             helper:'clone',
@@ -170,7 +168,7 @@
 <div class="container_12">
 	
 	<div class="clear"></div>
-	
+	<h2>Project: <a href="<c:url value="/project/setup?projectId=${project.id}"/>">${project.name}</a></h2>
 	<div class="clear"></div>
 	<div class="grid_3 group" id="palette">
 	       <div class="info_message">Drag these items to the canvas</div>
@@ -181,7 +179,6 @@
 			Got assets?
 			<c:choose>
 				<c:when test="${not empty pageItem.assets}">
-					
 					   <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status">
 					   <div class="group" id="asset-info_${asset.id}">
 					       <div> Name: ${asset.source} <span style="float:right"><a href="" id="asset_${asset.id}" class="delete-asset">x</a></span></div>
@@ -198,13 +195,14 @@
 	</div>
 	<!-- end .grid_3 -->
 	<div class="grid_9">
+	    <input type="hidden" id="projectId" value="${project.id}"/>
 	    <input type="hidden" id="pageId" value="${pageItem.id}"/>
 	   
 	    <div class="group">
 	    
 	    <fieldset>
 	    <label for="page_name">Page name:</label>
-	    <input id="page_name" class="text ui-corner-all ui-widget-content" name="page_name" type="text" value="${pageItem.pageName}"></input><span style="float:right;"><button id="save-page">Save Page</button></span>
+	    <input id="page_name" class="text ui-corner-all ui-widget-content" name="page_name" type="text" value="${pageItem.name}"></input><span style="float:right;"><button id="save-page">Save Page</button></span>
 	    </fieldset>
 	    
 	    

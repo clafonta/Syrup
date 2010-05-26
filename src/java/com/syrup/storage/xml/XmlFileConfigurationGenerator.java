@@ -5,6 +5,7 @@ import org.w3c.dom.Element;
 
 import com.syrup.model.Asset;
 import com.syrup.model.Page;
+import com.syrup.model.Project;
 import com.syrup.storage.IStorage;
 
 /**
@@ -27,7 +28,6 @@ public class XmlFileConfigurationGenerator extends XmlGeneratorSupport {
 	 *         <code>null</code>, then empty element is returned e.g.
 	 *         &lt;cXML/&gt;
 	 */
-	@SuppressWarnings("unchecked")
 	public Element getElement(Document document, IStorage store) {
 		
 		Element rootElement = document.createElement("syrup");
@@ -35,27 +35,32 @@ public class XmlFileConfigurationGenerator extends XmlGeneratorSupport {
 		this.setAttribute(rootElement, "xml:lang", "en-US");
 		this.setAttribute(rootElement, "version", "1.0");
 		
-		for(Page page: store.getPages()){
-			Element serviceElement = document.createElement("page");
-			rootElement.appendChild(serviceElement);
+		for(Project project: store.getProjects()){
+			Element projectElement = document.createElement("project");
+			rootElement.appendChild(projectElement);
 
-			if (page != null) {
-				//logger.debug("building XML representation for MockServiceBean:\n" + mockServiceBean.toString());
+			if (project != null) {
+				
 				// *************************************
 				// We do NOT want to write out ID.
-				// If we did, then someone uploading this xml definition may overwrite services
+				// If we did, then someone uploading this xml definition may overwrite 
 				// defined with the same ID.
-				// serviceElement.setAttribute("id", mockServiceBean.getId());
 				// *************************************
-				serviceElement.setAttribute("name", page.getPageName());
-			
-				for(Asset asset: page.getAssets()){
-					Element assetElement = document.createElement("asset");
-					assetElement.setAttribute("id", asset.getId().toString());
-					assetElement.setAttribute("source",asset.getSource());
-					assetElement.setAttribute("top",""+asset.getTop());
-					assetElement.setAttribute("left",""+asset.getLeft());
-					serviceElement.appendChild(assetElement);
+				projectElement.setAttribute("name", project.getName());
+				
+				for(Page page: project.getPages()){
+					Element pageElement = document.createElement("page");
+					pageElement.setAttribute("id", ""+page.getId());
+					pageElement.setAttribute("name", ""+page.getName());
+					for(Asset asset: page.getAssets()){
+						Element assetElement = document.createElement("asset");
+						assetElement.setAttribute("id", asset.getId().toString());
+						assetElement.setAttribute("source",asset.getSource());
+						assetElement.setAttribute("top",""+asset.getTop());
+						assetElement.setAttribute("left",""+asset.getLeft());
+						pageElement.appendChild(assetElement);
+					}
+					projectElement.appendChild(pageElement);
 				}
 			}
 		}

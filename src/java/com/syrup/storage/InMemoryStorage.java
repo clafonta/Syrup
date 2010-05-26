@@ -24,19 +24,19 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
 import com.syrup.OrderedMap;
-import com.syrup.model.Page;
+import com.syrup.model.Project;
 import com.syrup.model.PersistableItem;
 import com.syrup.storage.xml.XmlFactory;
 import com.syrup.ui.StartUpServlet;
 
 /**
- * In memory implementation to the storage of mock services and scenarios.
+ * In memory implementation to the storage of projects.
  * 
  * @author chad.lafontaine
  */
 public class InMemoryStorage implements IStorage {
 
-	private OrderedMap<Page> mockServiceStore = new OrderedMap<Page>();
+	private OrderedMap<Project> syrupProjectStore = new OrderedMap<Project>();
 
 	private static Logger logger = Logger
 			.getLogger(InMemoryStorage.class);
@@ -75,29 +75,29 @@ public class InMemoryStorage implements IStorage {
 
 	public void deleteEverything() {
 
-		this.mockServiceStore = new OrderedMap<Page>();
+		this.syrupProjectStore = new OrderedMap<Project>();
 		this.writeMemoryToFile();
 	}
 
-	public Page getPageById(Long id) {
-		return mockServiceStore.get(id);
+	public Project getProjectById(Long id) {
+		return syrupProjectStore.get(id);
 	}
 
-	public Page saveOrUpdatePage(Page page) {
-		PersistableItem item = mockServiceStore.save(page);
+	public Project saveOrUpdateProject(Project project) {
+		PersistableItem item = syrupProjectStore.save(project);
 		this.writeMemoryToFile();
-		return (Page) item;
+		return (Project) item;
 	}
 
-	public void deletePage(Page mockServiceBean) {
-		if (mockServiceBean != null) {
-			mockServiceStore.remove(mockServiceBean.getId());
+	public void deleteProject(Project project) {
+		if (project != null) {
+			syrupProjectStore.remove(project.getId());
 			this.writeMemoryToFile();
 		}
 	}
 
-	public List<Page> getPages() {
-		return this.mockServiceStore.getOrderedList();
+	public List<Project> getProjects() {
+		return this.syrupProjectStore.getOrderedList();
 	}
 
 	/**

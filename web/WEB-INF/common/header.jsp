@@ -67,11 +67,33 @@ $(document).ready(function() {
 		<li class="<c:if test="${currentTab == 'home'}">current</c:if>"><a
 			href="<c:url value="/home" />">Home  <span class="sf-sub-indicator"> &#187;</span></a>
 			<ul>
-				<li><a title="Create a page"
-					href="<c:url value="/page/setup" />">Create a Page</a></li>
+				<li><a title="Create a project"
+					href="<c:url value="/project/setup" />">Create a Project</a></li>
 				
 			</ul>
 		</li>
+		<c:choose>
+		  <c:when test="${currentTab != 'home'}">
+		    <%// Do not show project %>
+		  </c:when>
+		  <c:otherwise>
+			<c:if test="${!empty project.id}">
+				<li>
+				   <c:url value="/page/setup" var="createPage">
+				     <c:param name="projectId" value="${project.id}"/>
+				   </c:url>
+				   <c:url value="/project/setup" var="projectHome">
+		             <c:param name="projectId" value="${project.id}"/>
+		           </c:url>
+				   <a href="${projectHome}">Project  <span class="sf-sub-indicator"> &#187;</span></a>
+		            <ul>
+		                <li><a title="Create a page" href="${createPage}">Create a page</a></li>
+		                
+		            </ul>
+		        </li>
+			 </c:if>
+		  </c:otherwise>
+		  </c:choose>
 		<li <c:if test="${currentTab == 'help'}">class="current"</c:if>><a
 			href="<c:url value="/help" />">Help</a></li>
 	</ul>

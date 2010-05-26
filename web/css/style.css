@@ -23,7 +23,7 @@ div.group, div.group-center {
 	-webkit-border-radius: 0.4em;
 	background-color: #EEEEEE;
 }
-.group-center {padding: 0.8em;margin-left: 20%; margin-right: 20%;}
+div.group-center {padding: 0.8em;margin-left: 20%; margin-right: 20%;}
 
 .info_message {	margin: 0.8em;	padding: 0.8em;	text-align: left;	color: black;	border: thin solid #d3d3d3;}
 .info_message {background-color: #CFDEFF; color:#0077CC;}

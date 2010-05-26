@@ -1,15 +1,15 @@
 package com.syrup.storage;
 
-import com.syrup.model.Page;
+import com.syrup.model.Project;
 
 class StorageWriter {
 
 	String StorageAsString(IStorage storage) {
 		StringBuffer sb = new StringBuffer();
 		sb.append(storage.toString());
-		for (Page item : storage.getPages()) {
-			sb.append("Page ID: ").append(item.getId()).append("\n");
-			sb.append("Page name: ").append(item.getPageName()).append(
+		for (Project item : storage.getProjects()) {
+			sb.append("Project ID: ").append(item.getId()).append("\n");
+			sb.append("Project name: ").append(item.getName()).append(
 					"\n");
 
 		}

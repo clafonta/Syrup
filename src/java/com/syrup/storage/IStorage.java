@@ -17,7 +17,7 @@ package com.syrup.storage;
 
 import java.util.List;
 
-import com.syrup.model.Page;
+import com.syrup.model.Project;
 
 /**
  * How Syrup stores itself.
@@ -27,9 +27,9 @@ import com.syrup.model.Page;
 public interface IStorage {	
 
 	public void deleteEverything();
-	public Page getPageById(Long id);
-	public Page saveOrUpdatePage(Page page);
-	public void deletePage(Page page);
-	public List<Page> getPages();
+	public Project getProjectById(Long id);
+	public Project saveOrUpdateProject(Project project);
+	public void deleteProject(Project project);
+	public List<Project> getProjects();
 	
 }

@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.syrup.model.Asset;
 import com.syrup.model.Page;
+import com.syrup.model.Project;
 import com.syrup.storage.IStorage;
 import com.syrup.storage.StorageRegistry;
 
@@ -27,23 +28,20 @@ public class PageSetupServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+		String projectId = req.getParameter("projectId");
 		String pageId = req.getParameter("pageId");
+		Project project = null;
 		Page pageItem = null;
 		try {
-			pageItem = store.getPageById(new Long(pageId));
+			project = store.getProjectById(new Long(projectId));
+			pageItem = project.getPageById(new Long(pageId));
 		} catch (Exception e) {
 			pageItem = new Page();
 		}
-		long counter = 0;
-		// Get the next available ID, and we'll set this as 
-		// the base for the counter.
-		for(Asset asset: pageItem.getAssets()){
-			if(asset.getId()>counter){
-				counter = asset.getId().longValue() + 1;
-			}
-		}
+		
+		req.setAttribute("project", project);
 		req.setAttribute("pageItem", pageItem);
-		req.setAttribute("counter", ""+counter);
+		
 		RequestDispatcher dispatch = req
 				.getRequestDispatcher("/page_setup.jsp");
 
@@ -53,24 +51,25 @@ public class PageSetupServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
+		String projectId = req.getParameter("projectId");
 		String pageId = req.getParameter("pageId");
-		String pageName = req.getParameter("pageName");
+		String name = req.getParameter("name");
 		String[] assetIds = req.getParameterValues("assetId[]");
 		String[] sources = req.getParameterValues("source[]");
 		String[] leftPositions = req.getParameterValues("left[]");
 		String[] topPositions = req.getParameterValues("top[]");
-		
 		String action = req.getParameter("action");
-		Page pageItem = new Page();
+		Page page = new Page();
+		Project project = null;
 		
-
-		try {
-			pageItem.setId(new Long(pageId));
+		try{
+			project = store.getProjectById(new Long(projectId));
+			page.setId(new Long(pageId));
 			
 		} catch (Exception e) {
 			// do nothing
 		}
-		pageItem.setPageName(pageName);
+		page.setName(name);
 		
 		
 		
@@ -78,11 +77,12 @@ public class PageSetupServlet extends HttpServlet {
 		Map<String, String> statusMessage = new HashMap<String, String>();
 		// DELETE PAGE
 		if (action != null && "deletePage".equalsIgnoreCase(action)) {
-			store.deletePage(pageItem);
+			project.deletePage(page);
+			store.saveOrUpdateProject(project);
 			statusMessage.put("success", "deleted");
 
 		} else {
-			if (pageName == null || pageName.trim().length() == 0) {
+			if (name == null || name.trim().length() == 0) {
 				// PAGE SHOULD NOT HAVE AN EMPTY NAME
 				statusMessage.put("fail", "Page not updated.");
 				statusMessage.put("pageName", "Name should not be empty.");
@@ -98,13 +98,14 @@ public class PageSetupServlet extends HttpServlet {
 						assetItem.setTop(Float.parseFloat(top));
 						assetItem.setLeft(Float.parseFloat(left));
 						assetItem.setSource(source);
-						pageItem.saveOrUpdateAsset(assetItem);
+						page.saveOrUpdateAsset(assetItem);
 					}
 				}
 				// 2. ALL GOOD
-				store.saveOrUpdatePage(pageItem);
+				project.saveOrUpdatePage(page);
+				store.saveOrUpdateProject(project);
 				statusMessage.put("success", "updated");
-				statusMessage.put("pageId", "" + pageItem.getId());
+				statusMessage.put("pageId", "" + page.getId());
 			}
 		}
 

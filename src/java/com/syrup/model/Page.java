@@ -7,7 +7,7 @@ import com.syrup.OrderedMap;
 public class Page implements PersistableItem {
 
 	private Long id;
-	private String pageName;
+	private String name;
     private OrderedMap<Asset> assets = new OrderedMap<Asset>();
 	@Override
 	public Long getId() {
@@ -19,14 +19,6 @@ public class Page implements PersistableItem {
 	public void setId(Long id) {
 		this.id = id;
 		
-	}
-
-	public void setPageName(String pageName) {
-		this.pageName = pageName;
-	}
-
-	public String getPageName() {
-		return pageName;
 	}
 
 	public List<Asset> getAssets() {
@@ -46,6 +38,24 @@ public class Page implements PersistableItem {
 	public Asset getAssetById(Long id) {
 		
 		return (Asset)this.assets.get(id);
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+	
+	public int getNextAvailableAssetId(){
+		int counter = 0;
+		for(Asset asset: getAssets()){
+			if(asset.getId()>counter){
+				counter = (int) (asset.getId().longValue() + 1);
+			}
+		}
+		return counter;
 	}
 
 }
