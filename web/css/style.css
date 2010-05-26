@@ -14,7 +14,7 @@ h2 { font-size:140%; color: #0077CC;}
 h3 { font-size:120%; color: #4E2F30;}
 h4 {font-size: 100%; color: black;font-weight: bold;margin: 1em 0em 0.5em 0em; padding:1px;}
 img {border:0;}
-
+a.logo, a.logo:hover, a.logo:visited{font-size:40px;text-decoration:none;font-weight:bold;color:black;}
 div.group, div.group-center {
 	padding: 0.5em;
 	margin: 0.2em 0;

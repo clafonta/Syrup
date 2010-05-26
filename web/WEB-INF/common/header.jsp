@@ -49,7 +49,7 @@ $(document).ready(function() {
 
 
 <div id="header">
-    <a href="<c:url value="/home" />"><img src="<c:url value="/images/logo.png" />" /></a>
+    <a href="<c:url value="/home" />" class="logo">Syrup<img style="max-height:40px;" src="<c:url value="/images/icon.png" />" /></a>
     <span style="float:right;"><img style="height:60px; " src="<c:url value="/images/silhouette.png" />" /></span>
 	<%@ include file="/WEB-INF/common/message.jsp"%>
 	<%

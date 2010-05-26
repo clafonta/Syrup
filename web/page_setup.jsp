@@ -172,21 +172,20 @@
 	<div class="clear"></div>
 	
 	<div class="clear"></div>
-	<div class="grid_3" id="palette">
-		   <ul>
-			<li><img id="drag1" class="drag" alt="square_black.png" src="<c:url value="/images/sample/square_black.png" />"></li>
-			<li><img id="drag2" class="drag" alt="triangle_pink.png" src="<c:url value="/images/sample/triangle_pink.png" />"></li>
-			<li><img id="drag3" class="drag" alt="circle_blue.png" src="<c:url value="/images/sample/circle_blue.png" />"></li>
-			</ul>
+	<div class="grid_3 group" id="palette">
+	       <div class="info_message">Drag these items to the canvas</div>
+		   <div><img id="drag1" class="drag" alt="square_black.png" src="<c:url value="/images/sample/square_black.png" />"></div>
+		   <div><img id="drag2" class="drag" alt="triangle_pink.png" src="<c:url value="/images/sample/triangle_pink.png" />"></div>
+		   <div><img id="drag3" class="drag" alt="circle_blue.png" src="<c:url value="/images/sample/circle_blue.png" />"></div>
+			
 			Got assets?
 			<c:choose>
 				<c:when test="${not empty pageItem.assets}">
 					
 					   <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status">
-					   <div class="group" id="asset-info_${asset.id}"> 
-					   <span style="float:right"><a href="" id="asset_${asset.id}" class="delete-asset">x</a></span>
-					   <div> Name: ${asset.source}</div>
-					   <div> Top: <input id="asset-top_${asset.id}" value="${asset.top}" class="location"/> Left: <input id="asset-left_${asset.id}" value="${asset.left}" class="location"/></div>
+					   <div class="group" id="asset-info_${asset.id}">
+					       <div> Name: ${asset.source} <span style="float:right"><a href="" id="asset_${asset.id}" class="delete-asset">x</a></span></div>
+					       <div> Top: <input id="asset-top_${asset.id}" value="${asset.top}" class="location"/> Left: <input id="asset-left_${asset.id}" value="${asset.left}" class="location"/></div>
 					   </div>	
 					   </c:forEach>			
 				</c:when>
@@ -200,15 +199,15 @@
 	<!-- end .grid_3 -->
 	<div class="grid_9">
 	    <input type="hidden" id="pageId" value="${pageItem.id}"/>
-	    
+	   
 	    <div class="group">
+	    
 	    <fieldset>
 	    <label for="page_name">Page name:</label>
-	    <input id="page_name" class="text ui-corner-all ui-widget-content" name="page_name" type="text" value="${pageItem.pageName}"></input>
+	    <input id="page_name" class="text ui-corner-all ui-widget-content" name="page_name" type="text" value="${pageItem.pageName}"></input><span style="float:right;"><button id="save-page">Save Page</button></span>
 	    </fieldset>
-	    <div align="right">
-	    <button id="save-page">Save Page</button></div>
-	    </div>
+	    
+	    
 		<p id="dcanvas">
 			 
 			 <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status">	 
@@ -216,6 +215,7 @@
 			 	<img id="drag-item_${asset.id}" style="position:absolute; top:${asset.top}px; left:${asset.left}px; " class="dragster" alt="${asset.source}" src="<c:url value="/images/sample/${asset.source}" />"/>
 			 </c:forEach>
 		</p>
+		</div>
 	</div>
 	<!-- end .grid_9 -->
 	<div class="clear"></div>
