@@ -30,6 +30,7 @@ public class Page implements PersistableItem {
 	}
 
 	public List<Asset> getAssets() {
+		
 		return this.assets.getOrderedList();
 	}
 	

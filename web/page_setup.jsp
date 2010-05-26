@@ -9,16 +9,29 @@
         .button()
         .click(function() {
 
-        	$('#dcanvas').children('.dragster').each(function() {
-                var child = $(this);
-               
+        	var assetIdValues = new Array();
+            var topValues = new Array();
+            var leftValues = new Array();
+            var sourceValues = new Array();
+        	$('#dcanvas').children().each(function() {
+                var $child = $(this);
+                var assetId = $child.attr("id").split("_")[1];
+                console.log('ID: ' + $child.attr("id"));
+                console.log('Left: '+$child.position().left);
+                console.log('Top: '+$child.position().top);
+                assetIdValues.push(assetId);
+                topValues.push(assetId+'_'+$child.position().top);
+                leftValues.push(assetId+'_'+$child.position().left);
+                sourceValues.push(assetId+'_'+$child.attr("alt"));
             });
                 	
             
         	$('#page_name').removeClass('ui-state-error');
         	var pageId = $('#pageId').val();
         	var pageName = $('#page_name').val();
-        	$.post('<c:url value="/page/setup"/>', { pageId: pageId, pageName: pageName } ,function(data){
+        	$.post('<c:url value="/page/setup"/>', { pageId: pageId, pageName: pageName,
+            	'assetId[]': assetIdValues, 'left[]': leftValues, 'top[]': topValues,
+            	'source[]': sourceValues  } ,function(data){
                    //console.log(data);
                    if(data.result.success && data.result.pageId){
                        $('#updated').fadeIn('fast').animate({opacity: 1.0}, 300).fadeOut('fast'); 
@@ -35,7 +48,7 @@
             }, 'json' );
         });
         //Counter
-        counter = 0;
+        counter = ${counter};
         //Make clone and make it draggable
         $(".drag").draggable({
             helper:'clone',
@@ -50,7 +63,7 @@
             	$(objName).addClass("dropped");
 
 
-               	//When an existiung object is dragged
+               	//When an existing object is dragged
 				var trash = false;
                 $(objName).draggable({
                 	containment: 'parent',
@@ -60,30 +73,22 @@
                     	console.log("assetId: " + assetId);
 						console.log("left: " + pos.left);
                         console.log("top: " +  pos.top);
-						if(pos.top < 100 && pos.left < 470){
-							//console.log("trash can");
-							trash = true;
-							$(this).remove();
-						}else {
-							var pageId = $('#pageId').val();
-							var left = pos.left;
-							var top = pos.top;
-							var pageName = $('#pageName').val();
-							var sourceValue = $(this).attr("alt");
-							if($('#asset-top_'+assetId)[0]){
-								$('#asset-top_'+assetId)[0].value = top;
-							}
-							$.post('<c:url value="/page/setup"/>', { pageId: pageId, assetId: assetId,
-								top: top, left: left, pageName: pageName, sourceValue:sourceValue } ,function(data){
-								   //console.log(data);
-								   if(data.result.success && data.result.planid){
-									   $('#updated').fadeIn('fast').animate({opacity: 1.0}, 300).fadeOut('fast'); 
-									  
-									   
-								    }
-							}, 'json' );
 						
+						var pageId = $('#pageId').val();
+						var left = pos.left;
+						var top = pos.top;
+						var pageName = $('#pageName').val();
+						var sourceValue = $(this).attr("alt");
+						if($('#asset-top_'+assetId)[0]){
+							$('#asset-top_'+assetId)[0].value = top;
 						}
+						$.post('<c:url value="/page/setup"/>', { pageId: pageId, assetId: assetId,
+							top: top, left: left, pageName: pageName, sourceValue:sourceValue } ,function(data){
+							   //console.log(data);
+							   if(data.result.success && data.result.planid){
+								   $('#updated').fadeIn('fast').animate({opacity: 1.0}, 300).fadeOut('fast');
+								}
+						}, 'json' );
                     }
                 });
 			
@@ -109,7 +114,7 @@
 	        });
         
 	        $(".dragster").draggable({
-	            containment: 'dcanvas',
+	            containment: 'parent',
 	            stop:function(ev, ui) {
 	                var pos=$(ui.helper).offset();
 	                var assetId = $(this).attr("id").split("_")[1];
@@ -208,7 +213,7 @@
 			 
 			 <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status">	 
 			    
-			 	<span id="drag-item_${asset.id}" style="position:absolute; top:${asset.top}px; left:${asset.left}px; "><img id="drag_${asset.id}" class="dragster" src="<c:url value="/images/sample/${asset.source}" />"/></span>
+			 	<img id="drag-item_${asset.id}" style="position:absolute; top:${asset.top}px; left:${asset.left}px; " class="dragster" alt="${asset.source}" src="<c:url value="/images/sample/${asset.source}" />"/>
 			 </c:forEach>
 		</p>
 	</div>

@@ -34,7 +34,16 @@ public class PageSetupServlet extends HttpServlet {
 		} catch (Exception e) {
 			pageItem = new Page();
 		}
+		long counter = 0;
+		// Get the next available ID, and we'll set this as 
+		// the base for the counter.
+		for(Asset asset: pageItem.getAssets()){
+			if(asset.getId()>counter){
+				counter = asset.getId().longValue() + 1;
+			}
+		}
 		req.setAttribute("pageItem", pageItem);
+		req.setAttribute("counter", ""+counter);
 		RequestDispatcher dispatch = req
 				.getRequestDispatcher("/page_setup.jsp");
 
@@ -46,31 +55,25 @@ public class PageSetupServlet extends HttpServlet {
 
 		String pageId = req.getParameter("pageId");
 		String pageName = req.getParameter("pageName");
-		String assetId = req.getParameter("assetId");
-		String top = req.getParameter("top");
-		String left = req.getParameter("left");
-		String sourceValue = req.getParameter("sourceValue");
+		String[] assetIds = req.getParameterValues("assetId[]");
+		String[] sources = req.getParameterValues("source[]");
+		String[] leftPositions = req.getParameterValues("left[]");
+		String[] topPositions = req.getParameterValues("top[]");
+		
 		String action = req.getParameter("action");
-		Page pageItem = null;
-		Asset assetItem = null;
+		Page pageItem = new Page();
+		
 
 		try {
-			pageItem = store.getPageById(new Long(pageId));
+			pageItem.setId(new Long(pageId));
+			
 		} catch (Exception e) {
 			// do nothing
-		}
-		if (pageItem == null) {
-			pageItem = new Page();
 		}
 		pageItem.setPageName(pageName);
-		try {
-			assetItem = pageItem.getAssetById(new Long(assetId));
-		} catch (Exception e) {
-			// do nothing
-		}
-		if (assetItem == null) {
-			assetItem = new Asset();
-		}
+		
+		
+		
 		PrintWriter out = resp.getWriter();
 		Map<String, String> statusMessage = new HashMap<String, String>();
 		// DELETE PAGE
@@ -84,24 +87,21 @@ public class PageSetupServlet extends HttpServlet {
 				statusMessage.put("fail", "Page not updated.");
 				statusMessage.put("pageName", "Name should not be empty.");
 			} else {
-				// UPDATE PAGE
-				if (assetId != null) {
-					try {
-						assetItem.setLeft(Float.parseFloat(left));
+				// 1. UPDATE ASSET LIST
+				if(assetIds!=null){
+					
+					for(String assetId: assetIds){
+						Asset assetItem = new Asset();
+						String left = getValueFromArray(leftPositions, assetId);
+						String top = getValueFromArray(topPositions, assetId);
+						String source = getValueFromArray(sources, assetId);
 						assetItem.setTop(Float.parseFloat(top));
-						assetItem.setSource(sourceValue);
-					} catch (Exception e) {
-						//
-					}
-					// DELETE ASSET?
-					if (action != null
-							&& "deleteAsset".equalsIgnoreCase(action)) {
-						pageItem.deleteAsset(assetItem);
-					} else {
-						// UPDATE ASSET
+						assetItem.setLeft(Float.parseFloat(left));
+						assetItem.setSource(source);
 						pageItem.saveOrUpdateAsset(assetItem);
 					}
 				}
+				// 2. ALL GOOD
 				store.saveOrUpdatePage(pageItem);
 				statusMessage.put("success", "updated");
 				statusMessage.put("pageId", "" + pageItem.getId());
@@ -113,5 +113,24 @@ public class PageSetupServlet extends HttpServlet {
 		out.flush();
 		out.close();
 		return;
+	}
+	
+	public static String getValueFromArray(String[] values, String id ){
+		String position = null;
+		for(String val: values){
+			String idDelim = id+"_";
+			int i = val.indexOf(idDelim);
+			if(i>-1){
+				position = val.substring(idDelim.length());
+				break;
+			}
+		}
+		return position;
+	}
+	
+	public static void main(String[] args){
+		String[] left = {"0_455.46", "1_67.0000"};
+		System.out.println(PageSetupServlet.getValueFromArray(left, "1"));
+		System.out.println("Done");
 	}
 }
