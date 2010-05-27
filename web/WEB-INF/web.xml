@@ -32,6 +32,14 @@
         <servlet-name>ProjectSetupServlet</servlet-name>
         <servlet-class>com.syrup.ui.ProjectSetupServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PageDeleteServlet</servlet-name>
+        <servlet-class>com.syrup.ui.PageDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PageDeleteServlet</servlet-name>
+        <url-pattern>/page/delete</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProjectSetupServlet</servlet-name>
         <url-pattern>/project/setup</url-pattern>

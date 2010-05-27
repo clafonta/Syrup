@@ -6,12 +6,12 @@
 <c:if test="${not empty successMessages}">
 	<script type="text/javascript">
 		    $(document).ready(function() {
-			$("#foo").fadeIn(2000).fadeTo(5000, 1).fadeOut(2000);
+			$("#coaching").fadeIn(1000).fadeTo(3000, 1).fadeOut(1000);
 		});
 	</script>
 	
 </c:if>
-<span id="foo" class="hide">
+<span id="coaching" class="hide">
 	<syrup:message/>
 </span>
 <span id="updated" class="hide">

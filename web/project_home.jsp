@@ -6,9 +6,9 @@
 <script>
 $(document).ready( function() {
 	$('.update-project').button().click( function() {
-		var id = $('#id').val();
+		var projectId = $('#projectId').val();
 		var name = $('input[name=name]').val()
-        $.post('<c:url value="/project/setup"/>', { name: name, projectId: id } ,function(data){
+        $.post('<c:url value="/project/setup"/>', { name: name, projectId: projectId } ,function(data){
                //console.log(data);
                $('#name').removeClass('ui-state-error');
                if(data.result.success && data.result.projectid){
@@ -71,7 +71,7 @@ $(document).ready( function() {
 	<div class="clear"></div>
 	<div class="grid_12" id="palette">
 		<div class="clear"></div>
-		   <input type="hidden" name="id" value="${project.id}"/>
+		   <input type="hidden" id="projectId" name="projectId" value="${project.id}"/>
            <div class="group-center">
                 <fieldset>
                     <label for="name"><h4>Project name:</h4></label>

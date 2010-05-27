@@ -1,49 +1,22 @@
 html, body{	padding-top: 0px;	background: #FFFFFF;font: 0.9em Helvetica,Arial,sans-serif; height:100%;}
-body {
-	border-top: 5px solid #000;
-	color: black;
-	padding: 20px 1em 40px;
-	
-	
-}
-div#header, div#footer {width:960px;margin-left: auto;margin-right:auto;}
+body {color: black; padding:0;}
+div#header, div#footer {width:960px;margin-left: auto;margin-right:auto;padding-top: 5px;}
+p { padding:0.2em; margin: 0.2em;}
 h1, h2, h3, .h1{margin: 1em 0.5em 0.5em 0.5em; padding:1px;}
 hr{  border: 0;  width: 100%;height: 2px;background-color: #06F;}
 h1, .h1{ font-size:160%; color: #0077CC;}
 h2 { font-size:140%; color: #0077CC;}
 h3 { font-size:120%; color: #4E2F30;}
-h4 {font-size: 100%; color: black;font-weight: bold;margin: 1em 0em 0.5em 0em; padding:1px;}
+h4 {font-size: 100%; color: black;font-weight: bold;margin: 1em 0em 0.5em 0em;}
 img {border:0;}
-a.logo, a.logo:hover, a.logo:visited{font-size:40px;text-decoration:none;font-weight:bold;color:black;}
-div.group, div.group-center {
-	padding: 0.5em;
-	margin: 0.2em 0;
-	border: thin solid #bdbdbd;
-	-moz-border-radius: 0.4em;
-	-webkit-border-radius: 0.4em;
-	background-color: #EEEEEE;
-}
+a.logo, a.logo:hover, a.logo:visited{font-size:1.5em;text-decoration:none;font-weight:bold;color:black;}
+div.group, div.group-center {padding: 0.5em; margin: 0.2em 0; border: thin solid #bdbdbd; -moz-border-radius: 0.4em;-webkit-border-radius: 0.4em;background-color: #EEEEEE;}
 div.group-center {padding: 0.8em;margin-left: 20%; margin-right: 20%;}
-
-.info_message {	margin: 0.8em;	padding: 0.8em;	text-align: left;	color: black;	border: thin solid #d3d3d3;}
-.info_message {background-color: #CFDEFF; color:#0077CC;}
-.info_message a {text-decoration: underline;}
-.info_message strong {color:#FF0084;}
-.info_message ul {list-style-position: inside;};
 .code, .code_text {font-family: Courier New, monospace;font-weight:100; font-stretch: ultra-condensed;}
 .code {background:#FFFFCC; padding:1em; border:1px solid #CCC; text-align:left; width: 90%;min-width:300px;margin:1em; font-family:}
 table.simple{border-collapse: collapse;border-spacing: 0px; }
 table.simple th{ border-bottom: 1px inset #DDDDDD; font-weight: bold;padding-left: 8px; }
-table.simple td{	
-	text-align: left;
-	font-weight: normal;
-	margin-top: 5px;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	padding-left: 8px;
-	padding-right: 0px;
-	border-bottom: 1px inset #DDDDDD; 
-}
+table.simple td{ text-align: left; font-weight: normal;margin-top: 5px; padding-top: 10px; padding-bottom: 10px; padding-left: 8px;padding-right: 0px;border-bottom: 1px inset #DDDDDD; }
 div.grippie {background:#EEEEEE url(images/grippie.png) no-repeat scroll center 2px;border-color:#DDDDDD;border-style:solid;border-width:0pt 1px 1px;cursor:s-resize;height:9px;overflow:hidden;}
 .resizable-textarea textarea {display:block;margin-bottom:0pt;width:100%;height: 20%;}
 .hide { display:none;}
@@ -53,46 +26,22 @@ div.grippie {background:#EEEEEE url(images/grippie.png) no-repeat scroll center 
 div#users-contain { width: 350px; margin: 20px 0; }
 div#users-contain table { margin: 1em 0; border-collapse: collapse; width: 100%; }
 div#users-contain table td, div#users-contain table th { border: 1px solid #eee; padding: .6em 10px; text-align: left; }
+/* MESSAGING */
+.info_message { margin: 0.8em;  padding: 0.8em; text-align: left; border: thin solid #d3d3d3;}
+.info_message {background-color: #CFDEFF; color:#0077CC;}
+.info_message a {text-decoration: underline;}
+.info_message strong {color:#FF0084;}
+.info_message ul {list-style-position: inside;};
 .ui-dialog .ui-state-error { padding: .3em; }
 .validateTips { border: 1px solid transparent; padding: 0.3em; }
-#updated, #deleted{
-    position: fixed;
-    width: 150px;
-    background: red;
-    text-align: center;
-    top: 10px;
-    right: 10px;
-    color:yellow;
-    padding: 0.1em;
-}
-.scroll {
-height: 200px;
-width: 300px;
-overflow: auto;
-border: 1px solid #666;
-background-color: #FFFFCC;
-padding: 8px;
-}
-p {
-	padding:0.2em;
-	margin: 0.2em;
-}
-.location {width:40px;}
+#updated, #deleted, #coaching { position: fixed; width: 150px; background: red; text-align: center; top: 10px; right: 10px; color:yellow; padding: 0.1em; }
+/* CANVAS PAGE */
+.scroll-pages {height:150px;overflow:auto;}
+.scroll-pallette {height:400px;overflow:auto;}
+.location {width:40px; font-size:0.5em;}
 /* DRAG AND DROP */
 #palette ul {list-style: none; margin-top:4em; padding:3em;}
 .dropped {position:absolute;}
 #dcanvas {background-color:#FFFFCC;height:200px;}
-.ui-draggable-helperMoving {
-	border: 1px dotted #000;
-	padding: 6px;
-	background: #fff;
-	font-size: 1.2em;
-	width:100px;
-	height:100px;
-}
-
-.ui-draggable-helperStoped {
-	border: 1px solid #000;
-	width:5px;
-	height:5px;
-}
+.ui-draggable-helperMoving { border: 1px dotted #000; padding: 6px; background: #fff; font-size: 1.2em; width:100px; height:100px; }
+.ui-draggable-helperStoped { border: 1px solid #000; width:5px; height:5px; }

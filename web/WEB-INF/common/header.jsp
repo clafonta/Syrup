@@ -45,12 +45,13 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
+<div style="width:100%; height:5px; background-color:black;"></div>
 <div>
 
 
 <div id="header">
-    <a href="<c:url value="/home" />" class="logo">Syrup<img style="max-height:40px;" src="<c:url value="/images/icon.png" />" /></a>
-    <span style="float:right;"><img style="height:60px; " src="<c:url value="/images/silhouette.png" />" /></span>
+    
+    
 	<%@ include file="/WEB-INF/common/message.jsp"%>
 	<%
 	String ua = request.getHeader( "User-Agent" );
@@ -63,6 +64,7 @@ $(document).ready(function() {
 	<% } %>
 	
 	<div id="topnav" style="margin-bottom:3em;width:100%;">
+	<div style="text-align:right;"><a href="<c:url value="/home" />" class="logo">Syrup </a></div>
 	<ul class="sf-menu" >
 		<li class="<c:if test="${currentTab == 'home'}">current</c:if>"><a
 			href="<c:url value="/home" />">Home  <span class="sf-sub-indicator"> &#187;</span></a>
@@ -81,6 +83,7 @@ $(document).ready(function() {
 				<li>
 				   <c:url value="/page/setup" var="createPage">
 				     <c:param name="projectId" value="${project.id}"/>
+				     <c:param name="action" value="new"/>
 				   </c:url>
 				   <c:url value="/project/setup" var="projectHome">
 		             <c:param name="projectId" value="${project.id}"/>
@@ -97,6 +100,7 @@ $(document).ready(function() {
 		<li <c:if test="${currentTab == 'help'}">class="current"</c:if>><a
 			href="<c:url value="/help" />">Help</a></li>
 	</ul>
+	
 	</div>
 	<div style="border-bottom:1px solid #CCCCCC;"></div>
 </div>

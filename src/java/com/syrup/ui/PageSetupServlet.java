@@ -31,23 +31,46 @@ public class PageSetupServlet extends HttpServlet {
 		String projectId = req.getParameter("projectId");
 		String pageId = req.getParameter("pageId");
 		Project project = null;
-		Page pageItem = null;
+		Page page = null;
+		// INITIALIZE
 		try {
 			project = store.getProjectById(new Long(projectId));
-			pageItem = project.getPageById(new Long(pageId));
 		} catch (Exception e) {
-			pageItem = new Page();
+			// Do nothing
 		}
-		
+		if (project == null) {
+			project = new Project();
+		}
+		// If project page does not exist, then default to
+		// first in list
+		try {
+			page = project.getPageById(new Long(pageId));
+		} catch (Exception e) {
+			// Do nothing
+		}
+		if (page == null) {
+			//
+			if (!project.getPages().isEmpty()) {
+				page = project.getPages().get(0);
+			}
+			// Default to first in list if not asking for new
+			if ("new".equalsIgnoreCase(req.getParameter("action"))
+					|| page == null) {
+				page = new Page();
+			}
+		}
 		req.setAttribute("project", project);
-		req.setAttribute("pageItem", pageItem);
-		
+		req.setAttribute("pageItem", page);
+
 		RequestDispatcher dispatch = req
 				.getRequestDispatcher("/page_setup.jsp");
 
 		dispatch.forward(req, resp);
 	}
 
+	/**
+	 * Handles saving of page assets
+	 */
 	public void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
@@ -58,55 +81,48 @@ public class PageSetupServlet extends HttpServlet {
 		String[] sources = req.getParameterValues("source[]");
 		String[] leftPositions = req.getParameterValues("left[]");
 		String[] topPositions = req.getParameterValues("top[]");
-		String action = req.getParameter("action");
 		Page page = new Page();
 		Project project = null;
-		
-		try{
+
+		try {
 			project = store.getProjectById(new Long(projectId));
 			page.setId(new Long(pageId));
-			
+
 		} catch (Exception e) {
 			// do nothing
 		}
 		page.setName(name);
-		
-		
-		
+
 		PrintWriter out = resp.getWriter();
 		Map<String, String> statusMessage = new HashMap<String, String>();
-		// DELETE PAGE
-		if (action != null && "deletePage".equalsIgnoreCase(action)) {
-			project.deletePage(page);
-			store.saveOrUpdateProject(project);
-			statusMessage.put("success", "deleted");
 
+		if (name == null || name.trim().length() == 0) {
+			// PAGE SHOULD NOT HAVE AN EMPTY NAME
+			statusMessage.put("fail", "Page not updated.");
+			statusMessage.put("pageName", "Name should not be empty.");
 		} else {
-			if (name == null || name.trim().length() == 0) {
-				// PAGE SHOULD NOT HAVE AN EMPTY NAME
-				statusMessage.put("fail", "Page not updated.");
-				statusMessage.put("pageName", "Name should not be empty.");
-			} else {
-				// 1. UPDATE ASSET LIST
-				if(assetIds!=null){
-					
-					for(String assetId: assetIds){
-						Asset assetItem = new Asset();
-						String left = getValueFromArray(leftPositions, assetId);
-						String top = getValueFromArray(topPositions, assetId);
-						String source = getValueFromArray(sources, assetId);
-						assetItem.setTop(Float.parseFloat(top));
-						assetItem.setLeft(Float.parseFloat(left));
-						assetItem.setSource(source);
-						page.saveOrUpdateAsset(assetItem);
-					}
+			// 1. UPDATE ASSET LIST
+			if (assetIds != null) {
+
+				for (String assetId : assetIds) {
+					Asset assetItem = new Asset();
+					String left = getValueFromArray(leftPositions, assetId);
+					String top = getValueFromArray(topPositions, assetId);
+					String source = getValueFromArray(sources, assetId);
+					assetItem.setTop(Float.parseFloat(top));
+					assetItem.setLeft(Float.parseFloat(left));
+					assetItem.setSource(source);
+					page.saveOrUpdateAsset(assetItem);
 				}
-				// 2. ALL GOOD
-				project.saveOrUpdatePage(page);
-				store.saveOrUpdateProject(project);
-				statusMessage.put("success", "updated");
-				statusMessage.put("pageId", "" + page.getId());
 			}
+			// 2. ALL GOOD
+			project.saveOrUpdatePage(page);
+			store.saveOrUpdateProject(project);
+			// For JSON
+			statusMessage.put("success", "updated");
+			statusMessage.put("pageId", "" + page.getId());
+			// For JSP
+			Util.saveSuccessMessage("Page updated", req);
 		}
 
 		String resultingJSON = Util.getJSON(statusMessage);
@@ -115,23 +131,17 @@ public class PageSetupServlet extends HttpServlet {
 		out.close();
 		return;
 	}
-	
-	public static String getValueFromArray(String[] values, String id ){
+
+	public static String getValueFromArray(String[] values, String id) {
 		String position = null;
-		for(String val: values){
-			String idDelim = id+"_";
+		for (String val : values) {
+			String idDelim = id + "_";
 			int i = val.indexOf(idDelim);
-			if(i>-1){
+			if (i > -1) {
 				position = val.substring(idDelim.length());
 				break;
 			}
 		}
 		return position;
-	}
-	
-	public static void main(String[] args){
-		String[] left = {"0_455.46", "1_67.0000"};
-		System.out.println(PageSetupServlet.getValueFromArray(left, "1"));
-		System.out.println("Done");
 	}
 }
