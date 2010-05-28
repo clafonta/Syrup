@@ -2,7 +2,7 @@ html, body{	padding-top: 0px;	background: #FFFFFF;font: 0.9em Helvetica,Arial,sa
 body {color: black; padding:0;}
 div#header, div#footer {width:960px;margin-left: auto;margin-right:auto;padding-top: 5px;}
 p { padding:0.2em; margin: 0.2em;}
-h1, h2, h3, .h1{margin: 1em 0.5em 0.5em 0.5em; padding:1px;}
+h1, h2, h3, .h1{margin: 0.2em; padding:1px;}
 hr{  border: 0;  width: 100%;height: 2px;background-color: #06F;}
 h1, .h1{ font-size:160%; color: #0077CC;}
 h2 { font-size:140%; color: #0077CC;}
@@ -10,7 +10,7 @@ h3 { font-size:120%; color: #4E2F30;}
 h4 {font-size: 100%; color: black;font-weight: bold;margin: 1em 0em 0.5em 0em;}
 img {border:0;}
 a.logo, a.logo:hover, a.logo:visited{font-size:1.5em;text-decoration:none;font-weight:bold;color:black;}
-div.group, div.group-center {padding: 0.5em; margin: 0.2em 0; border: thin solid #bdbdbd; -moz-border-radius: 0.4em;-webkit-border-radius: 0.4em;background-color: #EEEEEE;}
+div.group, div.group-center {padding: 0.5em; margin: 0.2em 0; border: 0 solid #bdbdbd; -moz-border-radius: 0.4em;-webkit-border-radius: 0.4em;background-color: #EEEEEE;}
 div.group-center {padding: 0.8em;margin-left: 20%; margin-right: 20%;}
 .code, .code_text {font-family: Courier New, monospace;font-weight:100; font-stretch: ultra-condensed;}
 .code {background:#FFFFCC; padding:1em; border:1px solid #CCC; text-align:left; width: 90%;min-width:300px;margin:1em; font-family:}
@@ -41,7 +41,4 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 .location {width:40px; font-size:0.5em;}
 /* DRAG AND DROP */
 #palette ul {list-style: none; margin-top:4em; padding:3em;}
-.dropped {position:absolute;}
-#dcanvas {background-color:#FFFFCC;height:200px;}
-.ui-draggable-helperMoving { border: 1px dotted #000; padding: 6px; background: #fff; font-size: 1.2em; width:100px; height:100px; }
-.ui-draggable-helperStoped { border: 1px solid #000; width:5px; height:5px; }
+#dcanvas {background-color:#FFFFCC;height:500px;}

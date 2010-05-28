@@ -16,16 +16,13 @@
             var topValues = new Array();
             var leftValues = new Array();
             var sourceValues = new Array();
+            var cpor = $('#dcanvas').offset();
         	$('#dcanvas').children().each(function() {
                 var $child = $(this);
                 var assetId = $child.attr("id").split("_")[1];
-                //console.log('ID: ' + $child.attr("id"));
-                //console.log('Left: '+$child.position().left);
-                //console.log('Top: '+$child.position().top);
                 assetIdValues.push(assetId);
-                // HACK: I'm not sure why the top position is less
                 topValues.push(assetId+'_'+($child.position().top));
-                leftValues.push(assetId+'_'+$child.position().left);
+                leftValues.push(assetId+'_'+($child.position().left));
                 sourceValues.push(assetId+'_'+$child.attr("alt"));
             });
         	$('#page_name').removeClass('ui-state-error');
@@ -55,27 +52,18 @@
         //Counter
         counter = ${pageItem.nextAvailableAssetId};
         // Non clone drag
-        $(".dragster").draggable({containment: 'parent'});
-        //Make clone and make it draggable
-        $('.drag').draggable({helper:'clone',containment: 'dcanvas', 
-            stop:function(ev, ui) {
-            	var pos=$(ui.helper).offset();
-            	objName = '#clonediv_'+counter
-            	$(objName).css({'left':pos.left,'top':pos.top});
-            	$(objName).addClass('dropped').addClass('draginfo');
-                $(objName).draggable({
-                	containment: 'parent'
-                });
-			
-            }
-        });
+       
+        
         $('.draginfo').dblclick( function() {
-        	 var pos=$(this).position();
+             var cpor = $('#dcanvas').offset();
+        	 var pos=$(this).offset();
         	 var pageId = $('#pageId').val();
              var pageName = $('#pageName').val();
              var sourceValue = $(this).attr("alt");
         	 $('#asset-top')[0].value = pos.top;
              $('#asset-left')[0].value = pos.left;
+             $('#asset-parent-top')[0].value = cpor.top;
+             $('#asset-parent-left')[0].value =  cpor.left;
              $("#dialog").dialog('open');
         });
         
@@ -119,26 +107,24 @@
 				}, 'json' );
 	        })
 	    });
-        
-        //Make element droppable
-        $("#dcanvas").droppable({
-			drop: function(ev, ui) {
-				if (ui.helper.attr('id').search(/drag[0-9]/) != -1){
-					counter++;
-					var element=$(ui.draggable).clone();
-					element.addClass("tempclass");
-					$(this).append(element);
-					$(".tempclass").attr("id","clonediv_"+counter);
-					$("#clonediv_"+counter).removeClass("tempclass");
-					//Get the dynamically item id
-					draggedNumber = ui.helper.attr('id').search(/drag([0-9])/)
-					itemDragged = "dragged" + RegExp.$1
-					////console.log(itemDragged)
 
-					$("#clonediv_"+counter).addClass(itemDragged);
-				}
-        	}
+        
+        $(".drag").css('z-index', 200).css('position', 'relative').draggable({
+            helper: 'clone'
         });
+            
+        $("#dcanvas").droppable({
+            drop: function(event, ui) {
+        	   if (ui.helper.attr('id').search(/drag[0-9]/) != -1){
+            	   counter++;
+                    $(this).append($(ui.helper).clone().draggable({containment: 'parent'}).removeClass('drag').addClass('dragster').attr("id","clonediv_"+counter));
+        	   }else {
+
+               }
+            }
+        });
+        $(".dragster").draggable({containment: '#dcanvas', scroll: false});
+        
     });
 
 	--></script>
@@ -148,6 +134,7 @@
 	<div id="dialog" title="Info">
 	    
 	    <div> Top: <input id="asset-top" value="" class="location"/> Left: <input id="asset-left" value="" class="location"/></div>
+	    <div> Parent Top: <input id="asset-parent-top" value="" class="location"/> Left:<input id="asset-parent-left" value="" class="location"/></div>
 	</div>
 	
 	<div class="clear"></div>
@@ -186,11 +173,9 @@
 	    </c:choose> 
 	    </span>
 	    </fieldset>
-		<p id="dcanvas">
-			 
-			 <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status">	 
-			    
-			 	<img id="drag-item_${asset.id}" style="position:absolute; top:${asset.top}px; left:${asset.left}px; margin:0; padding:0; " class="dragster draginfo" alt="${asset.source}" src="<c:url value="/images/sample/${asset.source}" />"/>
+		<p id="dcanvas" style="position:relative;">
+			 <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status">	
+			 	<img id="drag-item_${asset.id}" style="position:absolute;top:${asset.top}px; left:${asset.left}px; margin:0; padding:0; " class="dragster draginfo" alt="${asset.source}" src="<c:url value="/images/sample/${asset.source}" />"/>
 			 </c:forEach>
 		</p>
 		</div>
