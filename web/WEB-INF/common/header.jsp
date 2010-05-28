@@ -64,7 +64,7 @@ $(document).ready(function() {
 	<% } %>
 	
 	<div id="topnav" style="margin-bottom:3em;width:100%;">
-	<div style="text-align:right;"><a href="<c:url value="/home" />" class="logo">Syrup </a></div>
+	
 	<ul class="sf-menu" >
 		<li class="<c:if test="${currentTab == 'home'}">current</c:if>"><a
 			href="<c:url value="/home" />">Home  <span class="sf-sub-indicator"> &#187;</span></a>
@@ -91,7 +91,6 @@ $(document).ready(function() {
 				   <a href="${projectHome}">Project  <span class="sf-sub-indicator"> &#187;</span></a>
 		            <ul>
 		                <li><a title="Create a page" href="${createPage}">Create a page</a></li>
-		                
 		            </ul>
 		        </li>
 			 </c:if>
@@ -100,7 +99,7 @@ $(document).ready(function() {
 		<li <c:if test="${currentTab == 'help'}">class="current"</c:if>><a
 			href="<c:url value="/help" />">Help</a></li>
 	</ul>
-	
+	<span style="float:right;"><a href="<c:url value="/home" />" class="logo">Syrup </a></span>
 	</div>
 	<div style="border-bottom:1px solid #CCCCCC;"></div>
 </div>

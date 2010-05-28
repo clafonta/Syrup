@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+import com.syrup.model.Project;
 import com.syrup.storage.IStorage;
 import com.syrup.storage.StorageRegistry;
 import com.syrup.storage.xml.XmlFileConfigurationReader;
@@ -100,7 +101,9 @@ public class ConfigurationReader {
 		XmlFileConfigurationReader msfr = new XmlFileConfigurationReader();
 		IStorage mockServiceStoreTemporary = msfr
 				.readDefinition(strXMLDefintion);
-		
+		for(Project project:  mockServiceStoreTemporary.getProjects()){
+			store.saveOrUpdateProject(project);
+		}
 	}
 
 	

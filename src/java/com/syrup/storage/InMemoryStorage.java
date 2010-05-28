@@ -24,8 +24,9 @@ import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 
 import com.syrup.OrderedMap;
-import com.syrup.model.Project;
+import com.syrup.model.LibraryItem;
 import com.syrup.model.PersistableItem;
+import com.syrup.model.Project;
 import com.syrup.storage.xml.XmlFactory;
 import com.syrup.ui.StartUpServlet;
 
@@ -37,7 +38,7 @@ import com.syrup.ui.StartUpServlet;
 public class InMemoryStorage implements IStorage {
 
 	private OrderedMap<Project> syrupProjectStore = new OrderedMap<Project>();
-
+	private OrderedMap<LibraryItem> libraryItems = new OrderedMap<LibraryItem>();
 	private static Logger logger = Logger
 			.getLogger(InMemoryStorage.class);
 
@@ -117,6 +118,37 @@ public class InMemoryStorage implements IStorage {
 		} catch (Exception e) {
 			logger.debug("Unable to write file", e);
 		}
+	}
+
+	@Override
+	public LibraryItem getLibraryItemById(Long id) {
+		return this.libraryItems.get(id);
+	}
+
+	@Override
+	public List<LibraryItem> getLibraryItems() {
+		return this.libraryItems.getOrderedList();
+	}
+
+	@Override
+	public LibraryItem saveOrUpdateLibraryItem(LibraryItem libraryItem) {
+		PersistableItem item = this.libraryItems.save(libraryItem);
+		// No need to write this to file. Memory only. 
+		//this.writeMemoryToFile();
+		return (LibraryItem) item;
+	}
+
+	@Override
+	public LibraryItem getLibraryItemByName(String name) {
+		LibraryItem libraryItem = null;
+		for(LibraryItem item: this.libraryItems.getOrderedList()){
+			if(item.getName().equalsIgnoreCase(name)){
+				libraryItem = item;
+				break;
+			}
+		}
+		
+		return libraryItem;
 	}
 
 }

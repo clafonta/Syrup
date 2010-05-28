@@ -36,6 +36,22 @@
         <servlet-name>PageDeleteServlet</servlet-name>
         <servlet-class>com.syrup.ui.PageDeleteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>LibraryServlet</servlet-name>
+        <servlet-class>com.syrup.ui.LibraryServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AssetDeleteServlet</servlet-name>
+        <servlet-class>com.syrup.ui.AssetDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AssetDeleteServlet</servlet-name>
+        <url-pattern>/asset/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>LibraryServlet</servlet-name>
+        <url-pattern>/library</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PageDeleteServlet</servlet-name>
         <url-pattern>/page/delete</url-pattern>

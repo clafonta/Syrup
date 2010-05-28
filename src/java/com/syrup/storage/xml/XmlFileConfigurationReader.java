@@ -16,7 +16,6 @@
 package com.syrup.storage.xml;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.StringReader;
 
 import org.xml.sax.InputSource;

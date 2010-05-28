@@ -15,78 +15,120 @@
  */
 package com.syrup.ui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
+import java.util.Properties;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+
 import org.apache.http.protocol.HTTP;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import java.io.*;
-import java.nio.charset.Charset;
-import java.util.Properties;
+import com.syrup.model.LibraryItem;
+import com.syrup.storage.IStorage;
+import com.syrup.storage.StorageRegistry;
 
 public class StartUpServlet extends HttpServlet {
 
-    private static final long serialVersionUID = -6466436642921760561L;
-    private static Logger logger = Logger.getLogger(StartUpServlet.class);
-    private static Properties appProps = new Properties();
-    public static final String APP_DEFINITIONS = "syrup_definitions.xml";
+	private static final long serialVersionUID = -6466436642921760561L;
+	private static Logger logger = Logger.getLogger(StartUpServlet.class);
+	private static Properties appProps = new Properties();
+	public static final String APP_DEFINITIONS = "syrup_definitions.xml";
+	public static final String APP_LIBRARY = "syrup_library";
+	public static final String APP_LIBRARY_MISC = "misc";
+	private static IStorage store = StorageRegistry.SyrupStorage;
+	
+	public void init() throws ServletException {
 
+		String log4jFile = getInitParameter("log4j.properties");
+		String appPropFile = getInitParameter("default.properties");
+		// base directory of servlet context
+		String contextPath = getServletContext().getRealPath(
+				System.getProperty("file.separator"));
+		contextPath = "/";
 
-    public void init() throws ServletException {
+		try {
+			InputStream log4jInputStream = getServletContext()
+					.getResourceAsStream(contextPath + log4jFile);
+			Properties log4JProperties = new Properties();
+			log4JProperties.load(log4jInputStream);
+			PropertyConfigurator.configure(log4JProperties);
 
-        String log4jFile = getInitParameter("log4j.properties");
-        String appPropFile = getInitParameter("default.properties");
-        // base directory of servlet context
-        String contextPath = getServletContext().getRealPath(System.getProperty("file.separator"));
-        contextPath = "/";
+		} catch (Exception npe) {
+			System.out
+					.println("Unable to find log4j.properties in servlet context");
+		}
 
-        try {
-            InputStream log4jInputStream = getServletContext().getResourceAsStream(contextPath + log4jFile);
-            Properties log4JProperties = new Properties();
-            log4JProperties.load(log4jInputStream);
-            PropertyConfigurator.configure(log4JProperties);
+		try {
+			logger.info("default.properties: "
+					+ getServletContext().getResource("/web.xml"));
+			InputStream appInputStream = getServletContext()
+					.getResourceAsStream(contextPath + appPropFile);
+			if (appInputStream == null) {
+				// try classpath
+				appInputStream = getClass().getResourceAsStream(
+						contextPath + appPropFile);
+			}
+			appProps.load(appInputStream);
 
-        }catch(Exception npe) {
-            System.out.println("Unable to find log4j.properties in servlet context");
-        }
+			// LOAD UP SAVED PROJECTS
+			File f = new File(APP_DEFINITIONS);
+			if (f.exists()) {
+				// Slurp it up and initialize definitions.
+				FileInputStream fstream = new FileInputStream(f);
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+						fstream, Charset.forName(HTTP.UTF_8)));
+				StringBuffer inputString = new StringBuffer();
+				// Read File Line By Line
+				String strLine = null;
+				while ((strLine = br.readLine()) != null) {
+					// Print the content on the console
+					inputString
+							.append(new String(strLine.getBytes(HTTP.UTF_8)));
+				}
+				ConfigurationReader reader = new ConfigurationReader();
+				reader.loadConfiguration(inputString.toString().getBytes(
+						HTTP.UTF_8));
+			}
+			
+			// LOAD UP LIBRARY ITEMS
+			File libraryDirectory = new File(APP_LIBRARY);
+			if(libraryDirectory.exists() && libraryDirectory.isDirectory()){
+				for(File file: libraryDirectory.listFiles()){
+					if(file.isDirectory()){
+						// Directory is a Group. 
+						String groupName = file.getName();
+						for(File groupItem: file.listFiles()){
+							if(!groupItem.isDirectory()){
+								LibraryItem li = new LibraryItem();
+								li.setGroupName(groupName);
+								li.setPath(groupItem.getPath());
+								li.setName(groupItem.getName());
+								store.saveOrUpdateLibraryItem(li);
+							}
+							
+						}
+					}else {
+						LibraryItem li = new LibraryItem();
+						li.setGroupName(APP_LIBRARY_MISC);
+						li.setPath(file.getPath());
+						li.setName(file.getName());
+						store.saveOrUpdateLibraryItem(li);
+					}
+				}
+			}
+			
 
-        try {
-            logger.info("default.properties: "+getServletContext().getResource("/web.xml"));
-            InputStream appInputStream = getServletContext().getResourceAsStream(contextPath + appPropFile);
-            if(appInputStream == null) {
-                // try classpath
-                appInputStream = getClass().getResourceAsStream(contextPath + appPropFile);
-            }
-            appProps.load(appInputStream);
+		}
 
-            File f = new File(APP_DEFINITIONS);
-           //String aa = f.getAbsolutePath();
-           // FileOutputStream fop = new FileOutputStream(f);
-
-            if (f.exists()) {
-                // Slurp it up and initialize definitions.
-                FileInputStream fstream = new FileInputStream(f);
-                BufferedReader br = new BufferedReader(new InputStreamReader(fstream, Charset.forName(HTTP.UTF_8)));
-                StringBuffer inputString = new StringBuffer();
-                // Read File Line By Line
-                String strLine = null;
-                while ((strLine = br.readLine()) != null) {
-                    // Print the content on the console
-                    inputString.append(new String(strLine.getBytes(HTTP.UTF_8)));
-                }
-                ConfigurationReader reader = new ConfigurationReader();
-                //reader.loadConfiguration(inputString.toString().getBytes(HTTP.UTF_8));
-           
-            }
-
-           
-
-        } 
-       
-        
-        catch (Exception e) {
-            logger.error("StartUpServlet:init()", e);
-        }
-    }
+		catch (Exception e) {
+			logger.error("StartUpServlet:init()", e);
+		}
+	}
 }

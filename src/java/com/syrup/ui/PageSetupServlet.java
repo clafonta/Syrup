@@ -61,7 +61,7 @@ public class PageSetupServlet extends HttpServlet {
 		}
 		req.setAttribute("project", project);
 		req.setAttribute("pageItem", page);
-
+		req.setAttribute("library", store.getLibraryItems());
 		RequestDispatcher dispatch = req
 				.getRequestDispatcher("/page_setup.jsp");
 
