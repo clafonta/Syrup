@@ -39,26 +39,6 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 .scroll-pages {height:150px;overflow:auto;}
 .scroll-pallette {height:400px;overflow:auto;}
 .pallette-item img {max-height: 80px;max-width:100%;}
-.canvas-item a {text-decoration: none; float:left;}
-.canvas-item a:hover {cursor:pointer}
-.canvas-item a:hover .desc{
-    display: block;
-    font-size: 1.2em;
-    padding: 10px 0;
-    background: #111;
-    filter:alpha(opacity=75);
-    opacity:.75;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=75)"; /*--IE 8 Transparency--*/
-    color: #fff;
-    position: absolute;
-    bottom: 11px;
-    left: 11px;
-    padding: 10px;
-    margin: 0;
-    width: 566px;
-    border-top: 1px solid #999;
-}
-
 .location {width:40px; font-size:0.5em;}
 /* DRAG AND DROP */
 #palette ul {list-style: none; margin-top:4em; padding:3em;}

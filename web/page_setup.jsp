@@ -115,27 +115,31 @@
 	    });
 
         
-        $(".drag").css('z-index', 200).draggable({
-            helper: 'clone'
+        $(".drag").draggable({
+            helper: 'clone', scroll: false, appendTo: '#canvas-container'
         });
             
         $("#dcanvas").droppable({
+        	accept: function() { return true; },
             drop: function(event, ui) {
-        	   
         	   if (ui.helper.attr('id').search(/drag[0-9]/) != -1){
             	   counter++;
-                    $(this).append($(ui.helper).css('top', 100).css('left', 200).clone().draggable({containment: 'parent'}).removeClass('drag').addClass('draginfo').addClass('dragster').attr("id","clonediv_"+counter));
-        	   }               
-        	   
+            	   offsetElement = $(ui.helper).offset();
+                   offNewContainer = $('#dcanvas').offset();
+                   $(this).append($(ui.helper).clone()
+                		   .css("left",offsetElement.left-offNewContainer.left)
+                		   .css("top",offsetElement.top-offNewContainer.top+6).appendTo('#dcanvas')
+                		   .draggable().removeClass('drag').addClass('draginfo draggable-clone').attr("id","clonediv_"+counter));
+        	   }    
             }
         });
-        $(".dragster").draggable({containment: '#dcanvas', scroll: false});
+        $(".draggable-clone").draggable({containment: '#dcanvas', scroll: false});
         
     });
 
 	--></script>
 
-<div class="container_12">
+<div id="canvas-container" class="container_12">
 	<div class="clear"></div>
 	<div id="dialog" title="Info Helper">
 	    <a id="delete-asset" class="delete-asset" href="#"></a>
@@ -146,6 +150,7 @@
 	
 	<div class="clear"></div>
 	
+    <!-- end .grid_10 -->
 	
 	<div class="grid_2" id="palette">
 	    <h2>Project: <a href="<c:url value="/project/setup?projectId=${project.id}"/>">${project.name}</a></h2>
@@ -169,28 +174,27 @@
 	</div>
 	<!-- end .grid_2 -->
 	<div class="grid_10">
-	    <input type="hidden" id="projectId" value="${project.id}"/>
-	    <input type="hidden" id="pageId" value="${pageItem.id}"/>
-	   
-	    <div class="group">
-	    <fieldset>
-	    <label for="page_name">Page name:</label>
-	    <input id="page_name" class="text ui-corner-all ui-widget-content ui-widget" name="page_name" type="text" value="${pageItem.name}"></input>
-	    <span style="float:right;">
-	    <c:choose>
-	       <c:when test="${empty pageItem.id}"><button id="save-page">Create Page</button></c:when>
-	       <c:otherwise><button id="save-page">Save Page</button> <a href="#" id="delete-page_${page.id}" class="delete-page">Delete page</a></c:otherwise>
-	    </c:choose> 
-	    </span>
-	    </fieldset>
-		<p id="dcanvas" style="position:relative;">
-			 <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status">	
-			 	<img id="drag-item_${asset.id}" style="position:absolute;top:${asset.top}px; left:${asset.left}px; margin:0; padding:0; " class="dragster draginfo" alt="${asset.source}" src="<syrup:library name="${asset.source}" />"/>
-			 </c:forEach>
-		</p>
-		</div>
-	</div>
-	<!-- end .grid_10 -->
+        <input type="hidden" id="projectId" value="${project.id}"/>
+        <input type="hidden" id="pageId" value="${pageItem.id}"/>
+       
+        <div class="group">
+        <fieldset>
+        <label for="page_name">Page name:</label>
+        <input id="page_name" class="text ui-corner-all ui-widget-content ui-widget" name="page_name" type="text" value="${pageItem.name}"></input>
+        <span style="float:right;">
+        <c:choose>
+           <c:when test="${empty pageItem.id}"><button id="save-page">Create Page</button></c:when>
+           <c:otherwise><button id="save-page">Save Page</button> <a href="#" id="delete-page_${page.id}" class="delete-page">Delete page</a></c:otherwise>
+        </c:choose> 
+        </span>
+        </fieldset>
+        <p id="dcanvas" style="position:relative;">
+             <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status"> 
+                <img id="drag-item_${asset.id}" style="position:absolute;top:${asset.top}px; left:${asset.left}px; margin:0; padding:0; " class="draggable-clone draginfo" alt="${asset.source}" src="<syrup:library name="${asset.source}" />"/>
+             </c:forEach>
+        </p>
+        </div>
+    </div>
 	<div class="clear"></div>
 
 </div>
