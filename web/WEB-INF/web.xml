@@ -44,6 +44,22 @@
         <servlet-name>AssetDeleteServlet</servlet-name>
         <servlet-class>com.syrup.ui.AssetDeleteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PageHistorySaveServlet</servlet-name>
+        <servlet-class>com.syrup.ui.PageHistorySaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PageHistoryDeleteServlet</servlet-name>
+        <servlet-class>com.syrup.ui.PageHistoryDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PageHistoryDeleteServlet</servlet-name>
+        <url-pattern>/page/history/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PageHistorySaveServlet</servlet-name>
+        <url-pattern>/page/history/save</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AssetDeleteServlet</servlet-name>
         <url-pattern>/asset/delete</url-pattern>

@@ -6,6 +6,7 @@ public class LibraryItem implements PersistableItem {
 	private String path;
 	private String name;
 	private String groupName;
+	private boolean isRelative = false;
 	public Long getId() {
 		return id;
 	}
@@ -29,6 +30,12 @@ public class LibraryItem implements PersistableItem {
 	}
 	public String getGroupName() {
 		return groupName;
+	}
+	public void setRelative(boolean isRelative) {
+		this.isRelative = isRelative;
+	}
+	public boolean isRelative() {
+		return isRelative;
 	}
 	 
 }

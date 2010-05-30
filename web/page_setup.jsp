@@ -161,7 +161,7 @@
 	   </div>
 	   <div class="group scroll-pallette"><h4>Pallette</h4>
 		    <c:forEach var="libraryItem" items="${library}" varStatus="status" >
-                   <div class="pallette-item"><img id="drag${status.count}" style="margin:0; padding:0;" class="drag" alt="${libraryItem.name}" src="<c:url value="/library?name=${libraryItem.name}" />">
+                   <div class="pallette-item"><img id="drag${status.count}" style="margin:0; padding:0;" class="drag" alt="${libraryItem.name}" src="<syrup:library name="${libraryItem.name}" />">
                    
                    </div>
             </c:forEach>
@@ -185,7 +185,7 @@
 	    </fieldset>
 		<p id="dcanvas" style="position:relative;">
 			 <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status">	
-			 	<img id="drag-item_${asset.id}" style="position:absolute;top:${asset.top}px; left:${asset.left}px; margin:0; padding:0; " class="dragster draginfo" alt="${asset.source}" src="<c:url value="/library?name=${asset.source}" />"/>
+			 	<img id="drag-item_${asset.id}" style="position:absolute;top:${asset.top}px; left:${asset.left}px; margin:0; padding:0; " class="dragster draginfo" alt="${asset.source}" src="<syrup:library name="${asset.source}" />"/>
 			 </c:forEach>
 		</p>
 		</div>

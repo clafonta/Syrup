@@ -42,6 +42,8 @@ public class StartUpServlet extends HttpServlet {
 	public static final String APP_DEFINITIONS = "syrup_definitions.xml";
 	public static final String APP_LIBRARY = "syrup_library";
 	public static final String APP_LIBRARY_MISC = "misc";
+	public static final String APP_LIBRARY_SAMPLE = "images/sample";
+	public static final String[] SAMPLE = {"circle_blue.png", "square_black.png","triangle_pink.png"};
 	private static IStorage store = StorageRegistry.SyrupStorage;
 	
 	public void init() throws ServletException {
@@ -110,6 +112,7 @@ public class StartUpServlet extends HttpServlet {
 								li.setGroupName(groupName);
 								li.setPath(groupItem.getPath());
 								li.setName(groupItem.getName());
+								li.setRelative(false);
 								store.saveOrUpdateLibraryItem(li);
 							}
 							
@@ -119,11 +122,20 @@ public class StartUpServlet extends HttpServlet {
 						li.setGroupName(APP_LIBRARY_MISC);
 						li.setPath(file.getPath());
 						li.setName(file.getName());
+						li.setRelative(false);
 						store.saveOrUpdateLibraryItem(li);
 					}
 				}
 			}
-			
+			// LOAD UP SAMPLE IMAGES
+			for(String s: SAMPLE){
+				LibraryItem li = new LibraryItem();
+				li.setGroupName("sample");
+				li.setName(s);
+				li.setPath(s);
+				li.setRelative(true);
+				store.saveOrUpdateLibraryItem(li);
+			}
 
 		}
 

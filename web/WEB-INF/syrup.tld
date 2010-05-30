@@ -19,6 +19,17 @@
 		</attribute>
 	</tag>
 	<tag>
+        <name>library</name>
+        <tagclass>com.syrup.ui.tags.LibraryTag</tagclass>
+        <bodycontent>JSP</bodycontent>
+        <info>Manages path building for library items</info>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+	<tag>
 		<name>slug</name>
 		<tagclass>com.syrup.ui.tags.SlugTag</tagclass>
 		<bodycontent>JSP</bodycontent>

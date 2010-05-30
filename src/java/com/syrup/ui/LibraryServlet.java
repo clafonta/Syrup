@@ -65,38 +65,44 @@ public class LibraryServlet extends HttpServlet {
 		resp.setContentType(mimeType);
 		// Set content size
 		File file = new File(filePath);
-		resp.setContentLength((int) file.length());
-		// Open the file and output streams
-		FileInputStream in = null;
-		OutputStream out = null;
-		try {
-			in = new FileInputStream(file);
-			out = resp.getOutputStream();
-			// Copy the contents of the file to the output stream
-			byte[] buf = new byte[1024];
-			int count = 0;
-			while ((count = in.read(buf)) >= 0) {
-				out.write(buf, 0, count);
-			}
-			in.close();
-			out.close();
-			return;
-		} catch (Exception e) {
-			// Out, something bad.
-		} finally {
+		if (!file.exists()) {
+			// Could be relative path, to the sample dir.
+			filePath = req.getContextPath() + filePath;
+			// sc.getResourcePaths(arg0)
+		} else {
+			resp.setContentLength((int) file.length());
+			// Open the file and output streams
+			FileInputStream in = null;
+			OutputStream out = null;
 			try {
-
-			} catch (Exception e) {
+				in = new FileInputStream(file);
+				out = resp.getOutputStream();
+				// Copy the contents of the file to the output stream
+				byte[] buf = new byte[1024];
+				int count = 0;
+				while ((count = in.read(buf)) >= 0) {
+					out.write(buf, 0, count);
+				}
 				in.close();
 				out.close();
-			}
-		}
+				return;
+			} catch (Exception e) {
+				// Out, something bad.
+			} finally {
+				try {
 
-		PrintWriter output = resp.getWriter();
-		output.println("Image not found: " + req.getParameter("name"));
-		output.flush();
-		output.close();
-		return;
+				} catch (Exception e) {
+					in.close();
+					out.close();
+				}
+			}
+
+			PrintWriter output = resp.getWriter();
+			output.println("Image not found: " + req.getParameter("name"));
+			output.flush();
+			output.close();
+			return;
+		}
 
 	}
 
