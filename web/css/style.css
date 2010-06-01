@@ -39,7 +39,12 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
 .scroll-pages {height:150px;overflow:auto;}
 .scroll-pallette {height:400px;overflow:auto;}
 .pallette-item img {max-height: 80px;max-width:100%;}
-.location {width:40px; font-size:0.5em;}
+.location {width:60px; font-size:0.5em;}
 /* DRAG AND DROP */
 #palette ul {list-style: none; margin-top:4em; padding:3em;}
 #dcanvas {background-color:#FFFFCC;height:800px;overflow:auto;}
+.transformed {
+    -webkit-transform: rotate(15deg);
+    -moz-transform: rotate(15deg);
+    transform: rotate(15deg);
+}

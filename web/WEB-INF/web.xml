@@ -52,6 +52,14 @@
         <servlet-name>PageHistoryDeleteServlet</servlet-name>
         <servlet-class>com.syrup.ui.PageHistoryDeleteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PageCopyServlet</servlet-name>
+        <servlet-class>com.syrup.ui.PageCopyServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PageCopyServlet</servlet-name>
+        <url-pattern>/page/copy</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PageHistoryDeleteServlet</servlet-name>
         <url-pattern>/page/history/delete</url-pattern>

@@ -19,9 +19,10 @@
 <script type="text/javascript" src="<c:url value="/javascript/jquery-jeditable-min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/javascript/jquery-impromptu.2.7.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/javascript/jquery.textarearesizer.compressed.js" />"></script>
+<script type="text/javascript" src="<c:url value="/javascript/jquery-rotate.js" />"></script>
 <script type="text/javascript" src="<c:url value="/javascript/superfish.js" />"></script>
 <script type="text/javascript" src="<c:url value="/javascript/hoverIntent.js" />"></script>
-
+<script type="text/javascript" src="<c:url value="/javascript/raphael-min.js" />"></script>
 <script LANGUAGE="Javascript">
 <!---
 function decision(message, url){

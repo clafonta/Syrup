@@ -68,6 +68,7 @@
              $('#asset-id')[0].value = assetId;
              $('#dialog').attr({title: 'BLAH'});
              $('#delete-asset').append('delete me').attr({id: assetId});
+             $('[name=RotateL]').attr("id","RotateL-"+assetId);
              $('#dialog').dialog('open');
         });
         
@@ -134,6 +135,28 @@
             }
         });
         $(".draggable-clone").draggable({containment: '#dcanvas', scroll: false});
+
+        $('.rotate-asset').button().click(function() {
+        	var assetId = $(this).attr("id").split("_")[1];
+        	$('#drag-item_'+assetId).rotate(-45);
+        });
+
+        $('#copy-link').click(function() {
+            var projectId = '${project.id}';
+            var pageId = '${pageItem.id}';
+            $.post('<c:url value="/page/copy"/>', { projectId: projectId, 
+                pageId: pageId } ,function(data){
+                	if(data.result.success && data.result.pageId){
+                        document.location='<c:url value="/page/setup"/>?projectId='+projectId+'&pageId='+ data.result.pageId;
+                     }else {
+                         var message = "";
+                         if(data.result.fail){
+                               message = data.result.fail;
+                         }
+                         $.prompt('<div style=\"color:red;\">Not updated:</div> ' + message);
+                     }
+            }, 'json' );
+        });
         
     });
 
@@ -146,6 +169,11 @@
 	    <div> Top: <input id="asset-top" value="" class="location"/> Left: <input id="asset-left" value="" class="location"/></div>
 	    <div> Parent Top: <input id="asset-parent-top" value="" class="location"/> Left:<input id="asset-parent-left" value="" class="location"/></div>
 	    <div> Item ID: <input id="asset-id" value="" class="location"/></div>
+	    <table class="simple">
+		  <tr><td align="left">
+		  <input type="button" value="<-Rotate" name="RotateL" class="rotate-asset">
+		  <input type="button" class="rotate-asset" value="Rotate->" name="RotateR" id="RotateR"></td></tr>
+		</table>
 	</div>
 	
 	<div class="clear"></div>
@@ -153,10 +181,12 @@
     <!-- end .grid_10 -->
 	
 	<div class="grid_2" id="palette">
+	
+	
 	    <h2>Project: <a href="<c:url value="/project/setup?projectId=${project.id}"/>">${project.name}</a></h2>
 	    <div class="clear"></div>
 		<div class="group">
-		   <span style="float:right;"><a href="<c:url value="/page/setup?projectId=${project.id}&action=new"/>">new page</a></span>
+		   <span style="float:right;"> <a id="copy-link" href="#"/>copy page</a> <a href="<c:url value="/page/setup?projectId=${project.id}&action=new"/>">new page</a></span>
 		   <h4>Pages</h4>
 	       <div class="scroll-pages">
 	           <c:forEach var="pageInfo" items="${project.pages}" >
@@ -166,7 +196,7 @@
 	   </div>
 	   <div class="group scroll-pallette"><h4>Pallette</h4>
 		    <c:forEach var="libraryItem" items="${library}" varStatus="status" >
-                   <div class="pallette-item"><img id="drag${status.count}" style="margin:0; padding:0;" class="drag" alt="${libraryItem.name}" src="<syrup:library name="${libraryItem.name}" />">
+                   <div class="pallette-item"><img id="drag${status.count}" style="margin:0; padding:0;" class="drag transform" alt="${libraryItem.name}" src="<syrup:library name="${libraryItem.name}" />">
                    
                    </div>
             </c:forEach>
@@ -174,13 +204,16 @@
 	</div>
 	<!-- end .grid_2 -->
 	<div class="grid_10">
+	
+	
+	
         <input type="hidden" id="projectId" value="${project.id}"/>
         <input type="hidden" id="pageId" value="${pageItem.id}"/>
        
         <div class="group">
         <fieldset>
         <label for="page_name">Page name:</label>
-        <input id="page_name" class="text ui-corner-all ui-widget-content ui-widget" name="page_name" type="text" value="${pageItem.name}"></input>
+        <input id="page_name" class="text ui-corner-all ui-widget-content ui-widget" name="page_name" type="text" value="${pageItem.name}" style="width:300px;"></input>
         <span style="float:right;">
         <c:choose>
            <c:when test="${empty pageItem.id}"><button id="save-page">Create Page</button></c:when>
