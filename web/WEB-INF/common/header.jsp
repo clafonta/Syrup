@@ -1,5 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="syrup" uri="/WEB-INF/syrup.tld" %>
+ 
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
 <head>
@@ -10,8 +12,10 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/960/text.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/960/960.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/prompt.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/annotate.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/style.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/superfish.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/css/superfish-navbar.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/jquery-ui-1.8.1.custom/css/flick/jquery-ui-1.8.1.custom.css" />" />
 <script type="text/javascript" src="<c:url value="/javascript/util.js" />"></script>
 <script type="text/javascript" src="<c:url value="/jquery-ui-1.8.1.custom/js/jquery-1.4.2.min.js" />"></script>
@@ -20,9 +24,12 @@
 <script type="text/javascript" src="<c:url value="/javascript/jquery-impromptu.2.7.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/javascript/jquery.textarearesizer.compressed.js" />"></script>
 <script type="text/javascript" src="<c:url value="/javascript/jquery-rotate.js" />"></script>
+<script type="text/javascript" src="<c:url value="/javascript/jqtouch.js" />"></script>
 <script type="text/javascript" src="<c:url value="/javascript/superfish.js" />"></script>
 <script type="text/javascript" src="<c:url value="/javascript/hoverIntent.js" />"></script>
-<script type="text/javascript" src="<c:url value="/javascript/raphael-min.js" />"></script>
+<script type="text/javascript" language="javascript" src="<c:url value="/javascript/jquery.annotate.js" />"></script>
+<script type="text/javascript" language="javascript" src="<c:url value="/javascript/jquery.touch.js" />"></script>
+<script type="text/javascript" language="javascript" src="<c:url value="/javascript/jqtouch_site.js" />"></script>
 <script LANGUAGE="Javascript">
 <!---
 function decision(message, url){

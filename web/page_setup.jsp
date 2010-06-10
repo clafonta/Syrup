@@ -1,12 +1,32 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="syrup" uri="/WEB-INF/syrup.tld" %>
+<%@ taglib prefix="syrup-tag" tagdir="/WEB-INF/tags" %>
 <c:set var="pageTitle" value="Home" scope="request" />
 <c:set var="currentTab" value="home" scope="request" />
 <jsp:include page="/WEB-INF/common/header.jsp" />
 	<script type="text/javascript"><!--
     $(document).ready(function(){
     	$("#dialog").dialog({ autoOpen: false });
-    	
+
+    	$("#dcanvas").annotateImage({
+            editable: true,
+            useAjax: false,
+            notes: [ { "top": 286, 
+                       "left": 161, 
+                       "width": 52, 
+                       "height": 37, 
+                       "text": "Small people on the steps", 
+                       "id": "e69213d0-2eef-40fa-a04b-0ed998f9f1f5", 
+                       "editable": false },
+                     { "top": 134, 
+                       "left": 179, 
+                       "width": 68, 
+                       "height": 74, 
+                       "text": "National Gallery Dome", 
+                       "id": "e7f44ac5-bcf2-412d-b440-6dbb8b19ffbe", 
+                       "editable": true } ]   
+          });
+        
     	$('#save-page')
         .button()
         .click(function() {
@@ -30,7 +50,7 @@
         	$.post('<c:url value="/page/setup"/>', { projectId: projectId, pageId: pageId, name: pageName,
             	'assetId[]': assetIdValues, 'left[]': leftValues, 'top[]': topValues,
             	'source[]': sourceValues  } ,function(data){
-                   ////console.log(data);
+                   console.log(data);
                    if(data.result.success && data.result.pageId){
                        // If page was new, we want to refresh the page. 
                        // Otherwise, we would need to append/remove all kinds of 
@@ -55,6 +75,7 @@
        
         
         $('.draginfo').dblclick( function() {
+            console.log("I fix");
              var cpor = $('#dcanvas').offset();
         	 var pos = $(this).offset();
         	 var pageId = $('#pageId').val();
@@ -70,6 +91,20 @@
              $('#delete-asset').append('delete me').attr({id: assetId});
              $('[name=RotateL]').attr("id","RotateL-"+assetId);
              $('#dialog').dialog('open');
+        });
+        $('.hide-notes').click( function() {
+        	$('#image-annotate-canvas').hide();
+        	$('#hide-notes-link').hide();
+        	$('#show-notes-link').show();
+        });
+        $('.show-notes').click( function() {
+            $('#image-annotate-canvas').show();
+            $('#show-notes-link').hide();
+            $('#hide-notes-link').show();
+        });
+
+        $('.image-annotate-add').click( function() {
+        	//$("#dcanvas").annotateImage.add($("#dcanvas"));
         });
         
         $('.delete-page').click( function() {
@@ -140,6 +175,10 @@
         	var assetId = $(this).attr("id").split("_")[1];
         	$('#drag-item_'+assetId).rotate(-45);
         });
+        $('.resize').button().click(function() {
+            var assetId = $(this).attr("id").split("_")[1];
+            $('#drag-item_'+assetId).css('height', '20px');
+        });
 
         $('#copy-link').click(function() {
             var projectId = '${project.id}';
@@ -157,6 +196,27 @@
                      }
             }, 'json' );
         });
+
+        $("#dcanvas_").annotateImage({
+            editable: true,
+            useAjax: false,
+            notes: [ { "top": 286,
+                       "left": 161,
+                       "width": 52,
+                       "height": 37,
+                       "text": "Small people on the steps",
+                       "id": "e69213d0-2eef-40fa-a04b-0ed998f9f1f5",
+                       "editable": false },
+                     { "top": 134,
+                       "left": 179,
+                       "width": 68,
+                       "height": 74,
+                       "text": "National Gallery Dome",
+                       "id": "e7f44ac5-bcf2-412d-b440-6dbb8b19ffbe",
+                       "editable": true } ]
+        });
+        $('.img-container').append('<span>' + annotationText  + '</span>')
+        
         
     });
 
@@ -174,6 +234,10 @@
 		  <input type="button" value="<-Rotate" name="RotateL" class="rotate-asset">
 		  <input type="button" class="rotate-asset" value="Rotate->" name="RotateR" id="RotateR"></td></tr>
 		</table>
+		<table class="simple">
+          <tr><td align="left">
+          <input type="button" value="Smaller" name="RotateL" class="resize"></td></tr>
+        </table>
 	</div>
 	
 	<div class="clear"></div>
@@ -183,10 +247,9 @@
 	<div class="grid_2" id="palette">
 	
 	
-	    <h2>Project: <a href="<c:url value="/project/setup?projectId=${project.id}"/>">${project.name}</a></h2>
+	    <h4>Project: <a href="<c:url value="/project/setup?projectId=${project.id}"/>">${project.name}</a></h4>
 	    <div class="clear"></div>
 		<div class="group">
-		   <span style="float:right;"> <a id="copy-link" href="#"/>copy page</a> <a href="<c:url value="/page/setup?projectId=${project.id}&action=new"/>">new page</a></span>
 		   <h4>Pages</h4>
 	       <div class="scroll-pages">
 	           <c:forEach var="pageInfo" items="${project.pages}" >
@@ -217,15 +280,24 @@
         <span style="float:right;">
         <c:choose>
            <c:when test="${empty pageItem.id}"><button id="save-page">Create Page</button></c:when>
-           <c:otherwise><button id="save-page">Save Page</button> <a href="#" id="delete-page_${page.id}" class="delete-page">Delete page</a></c:otherwise>
+           <c:otherwise><button id="save-page">Save Page</button> <a class="image-annotate-add" id="image-annotate-add" href="#">Add Note</a> <span id="hide-notes-link"><a href="#" id="hide-notes" class="hide-notes">Hide Notes</a></span><span id="show-notes-link" style="display:none;"><a href="#" id="show-notes" class="show-notes" >Show Notes</a></span> | <a href="#" id="delete-page_${page.id}" class="delete-page">Delete</a> | <a id="copy-link" href="#"/>Copy</a> | <a href="<c:url value="/page/setup?projectId=${project.id}&action=new"/>">New</a></c:otherwise>
         </c:choose> 
         </span>
         </fieldset>
         <p id="dcanvas" style="position:relative;">
+          
              <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status"> 
                 <img id="drag-item_${asset.id}" style="position:absolute;top:${asset.top}px; left:${asset.left}px; margin:0; padding:0; " class="draggable-clone draginfo" alt="${asset.source}" src="<syrup:library name="${asset.source}" />"/>
              </c:forEach>
+          
         </p>
+        <c:if test="${not empty pageItem.id}">
+        <div class="group">
+        <h4>History</h4>
+        
+            <syrup-tag:historyPage projectId="${project.id}" pageId="${pageItem.id}"/>
+        </div>
+        </c:if>
         </div>
     </div>
 	<div class="clear"></div>

@@ -34,6 +34,7 @@ $(document).ready( function() {
         });
 });
 </script>
+
 <div class="container_12">
 	<!-- end .grid_10 -->
 	<div class="clear"></div>

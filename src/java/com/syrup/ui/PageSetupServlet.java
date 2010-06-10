@@ -101,6 +101,10 @@ public class PageSetupServlet extends HttpServlet {
 			statusMessage.put("fail", "Page not updated.");
 			statusMessage.put("pageName", "Name should not be empty.");
 		} else {
+			Page snapshot = null;
+			if(page.getId()!=null){
+				snapshot = page;
+			}
 			// 1. UPDATE ASSET LIST
 			if (assetIds != null) {
 
@@ -117,6 +121,9 @@ public class PageSetupServlet extends HttpServlet {
 			}
 			// 2. ALL GOOD
 			project.saveOrUpdatePage(page);
+			if(snapshot!=null){
+				project.addPageHistory(page.getId(), snapshot);
+			}
 			store.saveOrUpdateProject(project);
 			// For JSON
 			statusMessage.put("success", "updated");
