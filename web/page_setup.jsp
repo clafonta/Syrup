@@ -96,11 +96,13 @@
         	$('#image-annotate-canvas').hide();
         	$('#hide-notes-link').hide();
         	$('#show-notes-link').show();
+        	return false;
         });
         $('.show-notes').click( function() {
             $('#image-annotate-canvas').show();
             $('#show-notes-link').hide();
             $('#hide-notes-link').show();
+            return false;
         });
 
         $('.image-annotate-add').click( function() {
@@ -280,7 +282,7 @@
         <span style="float:right;">
         <c:choose>
            <c:when test="${empty pageItem.id}"><button id="save-page">Create Page</button></c:when>
-           <c:otherwise><button id="save-page">Save Page</button> <a class="image-annotate-add" id="image-annotate-add" href="#">Add Note</a> <span id="hide-notes-link"><a href="#" id="hide-notes" class="hide-notes">Hide Notes</a></span><span id="show-notes-link" style="display:none;"><a href="#" id="show-notes" class="show-notes" >Show Notes</a></span> | <a href="#" id="delete-page_${page.id}" class="delete-page">Delete</a> | <a id="copy-link" href="#"/>Copy</a> | <a href="<c:url value="/page/setup?projectId=${project.id}&action=new"/>">New</a></c:otherwise>
+           <c:otherwise><button id="save-page">Save Page</button> <span id="hide-notes-link"><a href="#" id="hide-notes" class="hide-notes">Hide Notes</a></span><span id="show-notes-link" style="display:none;"><a href="#" id="show-notes" class="show-notes" >Show Notes</a></span> | <a href="#" id="delete-page_${page.id}" class="delete-page">Delete</a> | <a id="copy-link" href="#"/>Copy</a> | <a href="<c:url value="/page/setup?projectId=${project.id}&action=new"/>">New</a></c:otherwise>
         </c:choose> 
         </span>
         </fieldset>

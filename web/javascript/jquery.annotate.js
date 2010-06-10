@@ -57,8 +57,8 @@
         }
 
         // Add the "Add a note" button
-        if (false) { //this.editable) {
-            this.button = $('<a class="image-annotate-add" id="image-annotate-add" href="#">Add Note</a>');
+        if (this.editable) {
+            this.button = $('<span style="float:right;"><a class="image-annotate-add" id="image-annotate-add" href="#">Add Note</a></span>');
             this.button.click(function() {
                 $.fn.annotateImage.add(image);
                 // We return _false_ to prevent a page 'jump' to the 
