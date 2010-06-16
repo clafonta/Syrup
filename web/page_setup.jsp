@@ -4,28 +4,43 @@
 <c:set var="pageTitle" value="Home" scope="request" />
 <c:set var="currentTab" value="home" scope="request" />
 <jsp:include page="/WEB-INF/common/header.jsp" />
+
+<script type="text/javascript"><!--
+//$(window).load(function() {
+$(document).ready(function(){
+	$("#dcanvas").annotateImage({
+		getUrl: '<c:url value="/page/note/get"/>',  
+		saveUrl: '<c:url value="/page/note/save"/>',  
+		deleteUrl: '<c:url value="/page/note/delete"/>',  
+		useAjax: true,  
+		canvasLeftPos: $('#dcanvas').position().left,
+		canvasTopPos: $('#dcanvas').position().top,
+		canvasHeight: $('#dcanvas').height(),
+        editable: true,
+        projectId: ${project.id},
+        pageId: ${pageItem.id},
+        notes: [ { "top": 286, 
+                   "left": 161, 
+                   "width": 52, 
+                   "height": 37, 
+                   "text": "Small people on the steps", 
+                   "id": "e69213d0-2eef-40fa-a04b-0ed998f9f1f5", 
+                   "editable": true },
+                 { "top": 134, 
+                   "left": 179, 
+                   "width": 68, 
+                   "height": 74, 
+                   "text": "National Gallery Dome", 
+                   "id": "e7f44ac5-bcf2-412d-b440-6dbb8b19ffbe", 
+                   "editable": true } ]   
+      });
+});
+--></script>
 	<script type="text/javascript"><!--
     $(document).ready(function(){
     	$("#dialog").dialog({ autoOpen: false });
 
-    	$("#dcanvas").annotateImage({
-            editable: true,
-            useAjax: false,
-            notes: [ { "top": 286, 
-                       "left": 161, 
-                       "width": 52, 
-                       "height": 37, 
-                       "text": "Small people on the steps", 
-                       "id": "e69213d0-2eef-40fa-a04b-0ed998f9f1f5", 
-                       "editable": false },
-                     { "top": 134, 
-                       "left": 179, 
-                       "width": 68, 
-                       "height": 74, 
-                       "text": "National Gallery Dome", 
-                       "id": "e7f44ac5-bcf2-412d-b440-6dbb8b19ffbe", 
-                       "editable": true } ]   
-          });
+    	
         
     	$('#save-page')
         .button()
@@ -95,6 +110,7 @@
         $('.hide-notes').click( function() {
         	$('#image-annotate-canvas').hide();
         	$('#hide-notes-link').hide();
+        	$('#image-annotate-add-button').hide();
         	$('#show-notes-link').show();
         	return false;
         });
@@ -102,6 +118,7 @@
             $('#image-annotate-canvas').show();
             $('#show-notes-link').hide();
             $('#hide-notes-link').show();
+            $('#image-annotate-add-button').show();
             return false;
         });
 
@@ -198,28 +215,7 @@
                      }
             }, 'json' );
         });
-
-        $("#dcanvas_").annotateImage({
-            editable: true,
-            useAjax: false,
-            notes: [ { "top": 286,
-                       "left": 161,
-                       "width": 52,
-                       "height": 37,
-                       "text": "Small people on the steps",
-                       "id": "e69213d0-2eef-40fa-a04b-0ed998f9f1f5",
-                       "editable": false },
-                     { "top": 134,
-                       "left": 179,
-                       "width": 68,
-                       "height": 74,
-                       "text": "National Gallery Dome",
-                       "id": "e7f44ac5-bcf2-412d-b440-6dbb8b19ffbe",
-                       "editable": true } ]
-        });
-        $('.img-container').append('<span>' + annotationText  + '</span>')
-        
-        
+                
     });
 
 	--></script>
@@ -275,7 +271,7 @@
         <input type="hidden" id="projectId" value="${project.id}"/>
         <input type="hidden" id="pageId" value="${pageItem.id}"/>
        
-        <div class="group">
+        <div class="group" style="position:relative;">
         <fieldset>
         <label for="page_name">Page name:</label>
         <input id="page_name" class="text ui-corner-all ui-widget-content ui-widget" name="page_name" type="text" value="${pageItem.name}" style="width:300px;"></input>
@@ -286,7 +282,7 @@
         </c:choose> 
         </span>
         </fieldset>
-        <p id="dcanvas" style="position:relative;">
+        <p id="dcanvas">
           
              <c:forEach var="asset" items="${pageItem.assets}"  varStatus="status"> 
                 <img id="drag-item_${asset.id}" style="position:absolute;top:${asset.top}px; left:${asset.left}px; margin:0; padding:0; " class="draggable-clone draginfo" alt="${asset.source}" src="<syrup:library name="${asset.source}" />"/>

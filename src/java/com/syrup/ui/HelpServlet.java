@@ -23,14 +23,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.syrup.storage.IStorage;
-import com.syrup.storage.StorageRegistry;
-
 public class HelpServlet extends HttpServlet {
 
     private static final long serialVersionUID = -5485332140449853235L;
 
-    private static IStorage store = StorageRegistry.SyrupStorage;
+    //private static IStorage store = StorageRegistry.SyrupStorage;
 
     public void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 

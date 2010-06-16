@@ -10,8 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
-
 import com.syrup.model.Page;
 import com.syrup.model.Project;
 import com.syrup.storage.IStorage;
@@ -22,7 +20,7 @@ public class PageDeleteServlet extends HttpServlet {
 	/**
 	 * 
 	 */
-	private static Logger log = Logger.getLogger(PageDeleteServlet.class);
+	//private static Logger log = Logger.getLogger(PageDeleteServlet.class);
 
 	private static final long serialVersionUID = 8227248014501597895L;
 	private static IStorage store = StorageRegistry.SyrupStorage;

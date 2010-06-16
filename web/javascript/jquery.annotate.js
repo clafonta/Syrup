@@ -8,21 +8,24 @@
         ///	</summary>
         var opts = $.extend({}, $.fn.annotateImage.defaults, options);
         var image = this;
-        var position = this.position();
-
         this.image = this;
         this.mode = 'view';
-
         // Assign defaults
+        this.canvasLeftPos = opts.canvasLeftPos; //position.left;
+        this.canvasTopPos = opts.canvasTopPos;//position.right;
+        this.canvasHeight = opts.canvasHeight;
         this.getUrl = opts.getUrl;
         this.saveUrl = opts.saveUrl;
         this.deleteUrl = opts.deleteUrl;
+        this.projectId = opts.projectId;
+        this.pageId = opts.pageId;
         this.editable = opts.editable;
         this.useAjax = opts.useAjax;
         this.notes = opts.notes;
 
         // Add the canvas
-        this.canvas = $('<div id="image-annotate-canvas" class="image-annotate-canvas" style="position: absolute; left:'+ position.left +'px; top: '+(position.top+16)+'px;"><div class="image-annotate-view"></div><div class="image-annotate-edit"><div class="image-annotate-edit-area"></div></div></div>');
+        // '6' is the offset. Not sure why!
+        this.canvas = $('<div id="image-annotate-canvas" class="image-annotate-canvas" style="position:absolute;left:'+this.canvasLeftPos+'px; top: '+(this.canvasTopPos+15)+'px;"><div class="image-annotate-view"></div><div class="image-annotate-edit"><div class="image-annotate-edit-area"></div></div></div>');
         this.canvas.children('.image-annotate-edit').hide();
         this.canvas.children('.image-annotate-view').hide();
         this.image.after(this.canvas);
@@ -58,7 +61,7 @@
 
         // Add the "Add a note" button
         if (this.editable) {
-            this.button = $('<span style="float:right;"><a class="image-annotate-add" id="image-annotate-add" href="#">Add Note</a></span>');
+            this.button = $('<span style="float:right;" id="image-annotate-add-button"><a class="image-annotate-add" id="image-annotate-add" href="#">Add Note</a></span>');
             this.button.click(function() {
                 $.fn.annotateImage.add(image);
                 // We return _false_ to prevent a page 'jump' to the 
@@ -96,14 +99,14 @@
         image.notes = new Array();
     };
 
-    $.fn.annotateImage.ajaxLoad = function(image) {
+    $.fn.annotateImage.ajaxLoad = function(thingToAnnotate) {
         ///	<summary>
         ///		Loads the annotations from the "getUrl" property passed in on the
         ///     options object.
         ///	</summary>
-        $.getJSON(image.getUrl + '?ticks=' + $.fn.annotateImage.getTicks(), function(data) {
-            image.notes = data;
-            $.fn.annotateImage.load(image);
+        $.getJSON(thingToAnnotate.getUrl + '?ticks=' + $.fn.annotateImage.getTicks() +'&projectId='+thingToAnnotate.projectId + '&pageId='+thingToAnnotate.pageId, function(data) {
+        	thingToAnnotate.notes = data;
+            $.fn.annotateImage.load(thingToAnnotate);
         });
     };
 
@@ -245,7 +248,10 @@
         image.canvas.children('.image-annotate-edit').show();
 
         // Add the note (which we'll load with the form afterwards)
-        var form = $('<div id="image-annotate-edit-form"><form><textarea id="image-annotate-text" name="text" rows="3" cols="30">' + this.note.text + '</textarea></form></div>');
+        var form = $('<div id="image-annotate-edit-form"><form>'
+        		+ '<input type="hidden" name="projectId" value="'+image.projectId+'"/>'
+        		+ '<input type="hidden" name="pageId" value="'+image.pageId+'"/>'
+        		+ '<textarea id="image-annotate-text" name="text" rows="3" cols="30">' + this.note.text + '</textarea></form></div>');
         this.form = form;
 
         $('body').append(this.form);

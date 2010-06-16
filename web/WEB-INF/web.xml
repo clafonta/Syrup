@@ -56,6 +56,30 @@
         <servlet-name>PageCopyServlet</servlet-name>
         <servlet-class>com.syrup.ui.PageCopyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PageAnnotateGetServlet</servlet-name>
+        <servlet-class>com.syrup.ui.PageAnnotateGetServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PageAnnotateSaveServlet</servlet-name>
+        <servlet-class>com.syrup.ui.PageAnnotateSaveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PageAnnotateDeleteServlet</servlet-name>
+        <servlet-class>com.syrup.ui.PageAnnotateDeleteServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>PageAnnotateDeleteServlet</servlet-name>
+        <url-pattern>/page/note/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PageAnnotateSaveServlet</servlet-name>
+        <url-pattern>/page/note/save</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PageAnnotateGetServlet</servlet-name>
+        <url-pattern>/page/note/get</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PageCopyServlet</servlet-name>
         <url-pattern>/page/copy</url-pattern>
