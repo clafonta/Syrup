@@ -68,6 +68,70 @@
         <servlet-name>PageAnnotateDeleteServlet</servlet-name>
         <servlet-class>com.syrup.ui.PageAnnotateDeleteServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>
+            FileSystemManagerServlet
+        </servlet-name>
+        <servlet-class>
+            com.syrup.storage.file.FileSystemManagerServlet
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>
+            FileUploadOctetStreamReaderServlet
+        </servlet-name>
+        <servlet-class>
+            com.syrup.storage.file.FileUploadOctetStreamReaderServlet
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>
+            FileDeleteServlet
+        </servlet-name>
+        <servlet-class>
+            com.syrup.storage.file.FileDeleteServlet
+        </servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>
+            FileViewServlet
+        </servlet-name>
+        <servlet-class>
+            com.syrup.storage.file.FileViewServlet
+        </servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>
+            FileViewServlet
+        </servlet-name>
+        <url-pattern>
+            /viewme
+        </url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>
+            FileDeleteServlet
+        </servlet-name>
+        <url-pattern>
+            /deletefile
+        </url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>
+            FileUploadOctetStreamReaderServlet
+        </servlet-name>
+        <url-pattern>
+            /uploadoctetstream
+        </url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>
+            FileSystemManagerServlet
+        </servlet-name>
+        <url-pattern>
+            /filesysteminfo
+        </url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>PageAnnotateDeleteServlet</servlet-name>
         <url-pattern>/page/note/delete</url-pattern>

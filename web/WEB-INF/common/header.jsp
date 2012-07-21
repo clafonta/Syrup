@@ -17,6 +17,8 @@
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/superfish.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/css/superfish-navbar.css" />" />
 <link rel="stylesheet" type="text/css" href="<c:url value="/jquery-ui-1.8.1.custom/css/flick/jquery-ui-1.8.1.custom.css" />" />
+<link rel="stylesheet" type="text/css" href="<c:url value="/javascript/fileuploader/fileuploader.css" />" />
+
 <script type="text/javascript" src="<c:url value="/javascript/util.js" />"></script>
 <script type="text/javascript" src="<c:url value="/jquery-ui-1.8.1.custom/js/jquery-1.4.2.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/jquery-ui-1.8.1.custom/js/jquery-ui-1.8.1.custom.min.js" />"></script>
@@ -30,6 +32,8 @@
 <script type="text/javascript" language="javascript" src="<c:url value="/javascript/jquery.annotate.js" />"></script>
 <script type="text/javascript" language="javascript" src="<c:url value="/javascript/jquery.touch.js" />"></script>
 <script type="text/javascript" language="javascript" src="<c:url value="/javascript/jqtouch_site.js" />"></script>
+<script type="text/javascript" src="<c:url value="/javascript/fileuploader/fileuploader.js" />"></script>
+
 <script LANGUAGE="Javascript">
 <!---
 function decision(message, url){
@@ -79,7 +83,8 @@ $(document).ready(function() {
 			<ul>
 				<li><a title="Create a project"
 					href="<c:url value="/project/setup" />">Create a Project</a></li>
-				
+			    <li><a title="File Upload"
+					href="<c:url value="/filesysteminfo" />">File upload</a></li>
 			</ul>
 		</li>
 		<c:choose>

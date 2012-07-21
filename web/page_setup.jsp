@@ -293,7 +293,7 @@ $(document).ready(function(){
         <div class="group">
         <h4>History</h4>
         
-            <syrup-tag:historyPage projectId="${project.id}" pageId="${pageItem.id}"/>
+            _syrup-tag:historyPage projectId="${project.id}" pageId="${pageItem.id}"_
         </div>
         </c:if>
         </div>
