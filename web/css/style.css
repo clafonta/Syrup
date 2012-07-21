@@ -130,3 +130,6 @@ div#users-contain table td, div#users-contain table th { border: 1px solid #eee;
     top: 0;
     left: 0;
 }
+.thumb img {
+  height: 50px;
+}

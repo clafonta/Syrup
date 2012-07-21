@@ -81,7 +81,7 @@ $(document).ready( function() {
                       <td>
                       <div style="padding: 2px;">                      
                       <ul class="hoverbox">
-						<li><a href="#"><img src="${viewItemUrl}" alt="${imageItem.filename}" /><img src="${viewItemUrl}" alt="description" class="preview" /></a></li>
+						<li><a href="#" class="thumb"><img src="${viewItemUrl}" alt="${imageItem.filename}" class="preview" /></a></li>
 					  </ul>
                       </td>
                       <td>
